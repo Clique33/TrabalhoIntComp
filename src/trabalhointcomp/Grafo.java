@@ -5,7 +5,7 @@
  */
 package trabalhointcomp;
 
-import java.util.LinkedList;
+import java.util.Scanner;
 
 /**
  *
@@ -14,9 +14,22 @@ import java.util.LinkedList;
 public class Grafo {
     int n;
     int m;
-    LinkedList<Vertice> vertices;
+    Vertice[] vertices;
 
-    public Grafo(int n) {
-        this.n = n;
+    public Grafo(Scanner leitor){//Recebe um Scanner do arquivo contendo o Grafo
+        n = leitor.nextInt();
+        vertices = Vertice.vetorVertice(n);
+        
+        int s = leitor.nextInt();
+        
+        while(s != -1){
+            this.incluiAresta(s, leitor.nextInt());
+            s = leitor.nextInt();
+        }
+    }
+    
+    private void incluiAresta(int v1, int v2){
+        vertices[v1].incluiVizinho(v2);
+        vertices[v2].incluiVizinho(v1);
     }
 }
