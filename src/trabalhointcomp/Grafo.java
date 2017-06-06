@@ -5,17 +5,18 @@
  */
 package trabalhointcomp;
 
+import java.util.LinkedList;
+
 /**
  *
  * @author Gaburieru
  */
-public class TrabalhoIntComp {
+public class Grafo {
+    int n;
+    int m;
+    LinkedList<Vertice> vertices;
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
+    public Grafo(int n) {
+        this.n = n;
     }
-    
 }
