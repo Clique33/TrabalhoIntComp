@@ -18,12 +18,12 @@ public class Historico {
         vertices = new boolean[size];
     }
     
-    public boolean checa(Vertice v){
+    public boolean foiChecado(Vertice v){//Retorna true se ele ja foi checado e false C.C.
         int i = v.label;
         return vertices[i];
     }
     
-    public void checado(Vertice v){
+    public void checa(Vertice v){
         int i = v.label;
         vertices[i] = true;
     }

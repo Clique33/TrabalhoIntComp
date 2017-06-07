@@ -40,7 +40,11 @@ public class Vertice {
     }
     
     public boolean eVizinho(Vertice v){
-        return vizinhos.contains(v);
+        for (int i = 0; i < vizinhos.size(); i++) {
+            if(v.label == vizinhos.get(i).label) return true;
+            
+        }
+        return false;
     }
     
     @Override

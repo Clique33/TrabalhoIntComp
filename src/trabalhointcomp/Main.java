@@ -26,6 +26,9 @@ public class Main {
             for (int i = 0; i < 2; i++) {
                 Grafo G = new Grafo(leitor);
                 G.imprime(true);
+                ILS ILS = new ILS(G);
+                Solucao s = ILS.GenerateInitialSolution();
+                s.imprime();
                 
             }
             

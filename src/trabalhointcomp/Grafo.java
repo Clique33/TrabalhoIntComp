@@ -33,6 +33,20 @@ public class Grafo {
         vertices[v2].incluiVizinho(v1);
     }
     
+    public int maiorGrau(Historico history){
+        int maior = 0;
+        int indiceMaior = 0;
+        
+        for (int i = 0; i < vertices.length; i++) {
+            if(maior < vertices[i].d() && !history.foiChecado(vertices[i])){
+                maior = vertices[i].d();
+                indiceMaior = i;
+            }
+            
+        }
+        return indiceMaior;
+    }
+    
     public void imprime(boolean comGrau){
         System.out.println("=============================\n" + n);
         for (Vertice vertice : vertices) {
