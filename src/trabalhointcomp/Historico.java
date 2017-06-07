@@ -27,4 +27,14 @@ public class Historico {
         int i = v.label;
         vertices[i] = true;
     }
+    
+    @Override
+    public String toString(){
+        String res = "+++++++++++++++++++++++++\n";
+        
+        for (int i = 0; i < size; i++) {
+            res += "" + i + ", " + vertices[i] + "\n";
+        }
+        return res + "+++++++++++++++++++++++++";
+    }
 }

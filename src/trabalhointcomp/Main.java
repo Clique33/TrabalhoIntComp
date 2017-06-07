@@ -28,8 +28,9 @@ public class Main {
                 G.imprime(true);
                 ILS ILS = new ILS(G);
                 Solucao s = ILS.GenerateInitialSolution();
+                s = ILS.LocalSearch(s);
                 s.imprime();
-                
+                System.out.println(ILS.history);
             }
             
         } catch (FileNotFoundException ex) {

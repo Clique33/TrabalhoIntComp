@@ -40,34 +40,73 @@ public class ILS {
         return s.k;
     }
     
-    private Solucao LocalSearch(Solucao s){
-        return null;
+    Solucao GenerateInitialSolution(){
+        System.out.println("Generating Initial Solution...");
+        return geraSolucao(G.vertices[G.maiorGrau(history)]);
     }
     
-    private Solucao GenerateInitialSolution(){/**Futuramente deve ser private*/
+    private Solucao geraSolucao(Vertice v){
+        Solucao s = new Solucao(v,G),aux;
         LinkedList<Solucao> cliques = new LinkedList<>();
-        Solucao s = new Solucao(G.vertices[G.maiorGrau(history)],G),aux;
         int i = -1,maior = 0;
         Solucao maiorS = s;
         
-        while(s.podeMelhorar()){
+        while(s.podeMelhorar(history)){
             i++;
-            cliques.add(s.melhora());
+            cliques.add(s.melhora(history));
             
         }
         
-        for (int j = 0; j < cliques.size(); j++)       
-{ 
+        for (int j = 0; j < cliques.size(); j++){ 
             aux = cliques.get(j);
-            cliques.get(j).imprime();
+            //cliques.get(j).imprime();
             
             if(maior < aux.k){
                 maior = aux.k;
                 maiorS = aux;
             }
         }
-        
+        history.checa(s.gerador);
         return maiorS; 
+    }
+        
+    Solucao LocalSearch(Solucao s){
+        System.out.println("Searching locally...");
+        int[] vizinhos = N1(s);
+        Solucao[] solucoes = new Solucao[vizinhos.length];
+        Solucao res = s;
+        int maior = s.k;
+        
+        for (int i = 0; i < vizinhos.length; i++) {
+            System.out.println("Generating solutions...");
+            solucoes[i] = this.geraSolucao(G.vertices[vizinhos[i]]);
+            if(solucoes[i].k > maior){                                          //Usar >= solucoes[i].k para testes
+                maior = solucoes[i].k;
+                res = solucoes[i];
+            }
+        }
+        
+        return res;
+    }
+    
+    private int[] N1(Solucao s){
+        LinkedList<Integer> vizinhos = new LinkedList<>();
+        Vertice aux;
+        
+        for (Vertice clique : s.clique) {
+            aux = G.vertices[clique.label];
+            if((aux.d() > s.k) && !history.foiChecado(aux)){                    //Usar >= s.k para testes
+                vizinhos.add(aux.label);
+            }
+        }
+        
+        int[] res = new int[vizinhos.size()];
+        
+        for (int i = 0; i < res.length; i++) {
+            res[i] = vizinhos.get(i);
+        }
+        
+        return res;
     }
     
     private Solucao Perturbation(Solucao s1,Historico history){

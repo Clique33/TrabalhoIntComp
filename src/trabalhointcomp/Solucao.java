@@ -13,7 +13,7 @@ public class Solucao {
     Grafo G;
     int k;
     Vertice[] clique;
-    private Vertice gerador;
+    Vertice gerador;
     private boolean[] visitados;
     
     public Solucao(Vertice v, Grafo G) {
@@ -49,19 +49,20 @@ public class Solucao {
         return true;
     }
     
-    public boolean podeMelhorar(){
+    public boolean podeMelhorar(Historico history){
         for (int i = 0; i < visitados.length; i++) {
-            if(!visitados[i]) return true;
+            if(!visitados[i] && !history.foiChecado(G.vertices[gerador.vizinhos.get(i).label])) return true;
         }
         return false;
     }
     
-    public Solucao melhora(){
+    public Solucao melhora(Historico history){
         Solucao s = this;
         Vertice v;
         for (int i = 0; i < gerador.vizinhos.size(); i++) {
-            if(!visitados[i]){
-                v = G.vertices[(gerador.vizinhos.get(i)).label];
+            v = G.vertices[(gerador.vizinhos.get(i)).label];
+            
+            if(!visitados[i] && !history.foiChecado(v)){
                 if(this.eViavel(v,s)){
                     s = new Solucao(s,v);
                     visitados[i] = true;
