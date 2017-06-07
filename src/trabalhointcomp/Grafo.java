@@ -32,4 +32,14 @@ public class Grafo {
         vertices[v1].incluiVizinho(v2);
         vertices[v2].incluiVizinho(v1);
     }
+    
+    public void imprime(boolean comGrau){
+        System.out.println("=============================\n" + n);
+        for (Vertice vertice : vertices) {
+            if(comGrau) System.out.println(vertice + "--> d(" + vertice.d() + ")");
+            else System.out.println(vertice);
+        }
+        
+        System.out.println("=============================");
+    }
 }

@@ -5,6 +5,12 @@
  */
 package trabalhointcomp;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Gaburieru
@@ -15,7 +21,17 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        try {
+            Scanner leitor = new Scanner(new File("gerador_de_grafos\\grafos.txt"));
+            for (int i = 0; i < 2; i++) {
+                Grafo G = new Grafo(leitor);
+                G.imprime(true);
+                
+            }
+            
+        } catch (FileNotFoundException ex) {
+            System.out.println("Arquivo não encontrado!!");
+        }
     }
 
     
