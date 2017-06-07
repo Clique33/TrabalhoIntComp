@@ -10,5 +10,21 @@ package trabalhointcomp;
  * @author Gaburieru
  */
 public class Historico {
+    private final int size;
+    private boolean vertices[];
+
+    public Historico(int size) {
+        this.size = size;
+        vertices = new boolean[size];
+    }
     
+    public boolean checa(Vertice v){
+        int i = v.label;
+        return vertices[i];
+    }
+    
+    public void checado(Vertice v){
+        int i = v.label;
+        vertices[i] = true;
+    }
 }

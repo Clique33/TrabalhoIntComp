@@ -12,7 +12,7 @@ package trabalhointcomp;
 public class ILS {
     
     Grafo G;
-    Historico history = new Historico();
+    Historico history = new Historico(G.n);
 
     public ILS(Grafo G) {
         this.G = G;
