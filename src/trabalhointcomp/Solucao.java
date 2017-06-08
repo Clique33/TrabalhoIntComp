@@ -73,6 +73,14 @@ public class Solucao {
         return s;
     }
     
+    public boolean estaNaClique(Vertice v){
+        for (int i = 1; i < clique.length; i++) {
+            if(v.label == clique[i].label) return true;
+            
+        }
+        return false;
+    }
+    
     public void imprime(){
         System.out.println("-----------------\n-->" + k);
         for (Vertice clique1 : clique) {
