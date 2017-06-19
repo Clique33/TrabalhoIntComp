@@ -15,10 +15,14 @@ public class Grafo {
     int n;
     int m;
     Vertice[] vertices;
+    boolean[][] matrizAdjacencias;
+    int[] graus;
 
     public Grafo(Scanner leitor){//Recebe um Scanner do arquivo contendo o Grafo
         n = leitor.nextInt();
         vertices = Vertice.vetorVertice(n);
+        matrizAdjacencias = new boolean[n][n];
+        graus = new int[n];
         
         int s = leitor.nextInt();
         
@@ -31,6 +35,9 @@ public class Grafo {
     private void incluiAresta(int v1, int v2){
         vertices[v1].incluiVizinho(v2);
         vertices[v2].incluiVizinho(v1);
+        matrizAdjacencias[v1][v2] = matrizAdjacencias[v2][v1] = true;
+        graus[v1]++;
+        graus[v2]++;
     }
     
     public int maiorGrau(Historico history){
@@ -44,6 +51,9 @@ public class Grafo {
             }
             
         }
+        
+        
+        
         return indiceMaior;
     }
     

@@ -23,7 +23,7 @@ public class Main {
     public static void main(String[] args) {
         try {
             Scanner leitor = new Scanner(new File("gerador_de_grafos\\grafos.txt"));
-            for (int i = 0; i < 2; i++) {
+            for (int i = 0; i < 1; i++) {
                 Grafo G = new Grafo(leitor);
                 G.imprime(true);
                 ILS ILS = new ILS(G);

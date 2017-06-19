@@ -8,8 +8,8 @@ int main(){
 	srand((unsigned)time(NULL));
 	rand();rand();rand();rand();
 	
-	for(i = 0; i < 10; i++){
-		n = rand()%64;
+	for(i = 0; i < 1; i++){
+		n = 16;//rand()%64;
 		fprintf(f,"%d\n",n);
 		
 		for(j = 0; j < n; j++){
