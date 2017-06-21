@@ -22,17 +22,20 @@ public class Main {
         Grafo G = null;
         try {
             Scanner leitor = new Scanner(new File("gerador_de_grafos\\grafos.txt"));
-            for (int i = 0; i < 1; i++) {
-                G = new Grafo(leitor);
-                G.imprimeVizinhos();
+            float counter = 0;
+            int aux,maior = 0;
+            G = new Grafo(leitor);
+            
+            for (int i = 0; i < 30; i++) {
+                //G.imprimeVizinhos();
                 ILS ILS = new ILS(G);
                 /*G.imprime(true);
                 System.out.println(ILS.history);*/
-                Solucao s = ILS.GenerateInitialSolution();
-                s.imprime();
-                s = ILS.LocalSearch(s);
-                s.imprime();
+                counter += aux = ILS.IteratedLocalSearch(300);
+                if(aux > maior) maior = aux;
+                System.out.println(aux);
             }
+            System.out.println("maior: " + maior + ", media: " + counter/30);
             
         } catch (FileNotFoundException ex) {
             System.out.println("Arquivo não encontrado!!");

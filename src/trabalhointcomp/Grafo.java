@@ -27,7 +27,7 @@ public class Grafo {
         int s = leitor.nextInt();
         
         while(s != -1){
-            this.incluiAresta(s, leitor.nextInt());
+            this.incluiAresta(s-1, leitor.nextInt()-1);
             s = leitor.nextInt();
         }
     }

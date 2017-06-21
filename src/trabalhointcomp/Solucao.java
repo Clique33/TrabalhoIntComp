@@ -71,6 +71,28 @@ public class Solucao {
         return res;
     }
     
+    public Solucao removeVertice(Grafo G){
+        int vertice = clique[(int)Math.floor((Math.random()*100*k))%k];
+        
+        Solucao res = new Solucao();
+        int[] nova = new int[clique.length-1];
+        int cont = 0;
+        
+        for (int i = 0; i < nova.length; i++) {
+            if(clique[cont] != vertice) nova[i] = clique[cont++];
+            else{
+                i--;
+                cont++;
+            }
+        }
+        
+        res.k = k -1;
+        res.clique = nova;
+        res.resetaVizinhos(G);
+        
+        return res;
+    }
+    
     private void resetaVizinhos(Grafo G){
         if(k == 0){
             vizinhos = null;
@@ -103,13 +125,25 @@ public class Solucao {
         return res;
     }
     
-    public Solucao maximiza(Grafo G){
+    /**
+     * Parte de uma clique e maximiza ela de maneira aleatória
+     * 
+     * @param G Grafo que contém os vértices
+     * @return retorna uma clique maximal, contendo 'this' e 'vertice'
+     */   
+    public Solucao maximiza(Grafo G){//Maximiza aleatóriamente
         Solucao res = this;
         while(res.podeMelhorar()) res = res.melhora(G);
         return res;
     }
-    
-    public Solucao maximiza(int vertice, Grafo G){
+    /**
+     * Parte de uma clique, acrescenta o 'vertice' nela e maximiza ela de maneira aleatória
+     * 
+     * @param vertice É o vértice que será colocado na Solução final
+     * @param G Grafo que contém os vértices
+     * @return retorna uma clique maximal, contendo 'this'
+     */
+    public Solucao maximiza(int vertice, Grafo G){//Maximiza a partir do 'vertice' e depois continua aleatóriamente
         Solucao res = this;
         res = res.melhora(vertice,G);
         res = res.maximiza(G);
@@ -132,7 +166,7 @@ public class Solucao {
         return new Solucao(this, choice, G.vizinhos(choice));
     }
     
-    public Solucao melhora(int vertice, Grafo G){//Escolhe nó aleatório dos vizinhos e acrescenta ele na clique
+    public Solucao melhora(int vertice, Grafo G){//Escolhe nó 'vertice' e acrescenta ele na clique
         int choice = vertice;
         return new Solucao(this, choice, G.vizinhos(choice));
     }
