@@ -21,11 +21,12 @@ public class Main {
     public static void main(String[] args) {
         Grafo G = null;
         try {
-            Scanner leitor = new Scanner(new File("gerador_de_grafos\\grafos.txt"));
+            Scanner leitor = new Scanner(new File("gerador_de_grafos\\C1000.9.txt"));
             float counter = 0;
             int aux,maior = 0;
             G = new Grafo(leitor);
             
+            long start = System.currentTimeMillis();
             for (int i = 0; i < 30; i++) {
                 //G.imprimeVizinhos();
                 ILS ILS = new ILS(G);
@@ -35,6 +36,7 @@ public class Main {
                 if(aux > maior) maior = aux;
                 System.out.println(aux);
             }
+            System.out.println("tempo: " + ((float)(System.currentTimeMillis()-start)/1000));
             System.out.println("maior: " + maior + ", media: " + counter/30);
             
         } catch (FileNotFoundException ex) {

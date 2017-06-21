@@ -115,7 +115,7 @@ public class ILS {
     }
     
     private Solucao AcceptanceCriterion(Solucao s1, Solucao s2, Historico history){
-        //if(s1.k > s2.k) return s1;
+        if(s1.k > s2.k) return s1;
         return s2;
     }
 }
