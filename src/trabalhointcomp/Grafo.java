@@ -40,19 +40,51 @@ public class Grafo {
         graus[v2]++;
     }
     
-    public int maiorGrau(Historico history){
+    public int[] vizinhos(int vertice){
+        int[] vizinhos = new int[graus[vertice]];
+        int cont = 0;
+        
+        for (int i = 0; i < matrizAdjacencias.length; i++) {
+            if(matrizAdjacencias[vertice][i]) vizinhos[cont++] = i;
+        }
+        
+        return vizinhos;
+    }
+    
+    public void imprimeVizinhos(){
+        int[] aux;
+        
+        for (int i = 0; i < matrizAdjacencias.length; i++) {
+            aux = vizinhos(i);
+            
+            System.out.print(i+": ");
+                
+            for (int j = 0; j < aux.length; j++) {
+                System.out.print(aux[j]+" ");
+            }
+            
+            System.out.println("||"+graus[i]);
+        }
+        
+        System.out.println("======================================");
+        
+        for (int i = 0; i < vertices.length; i++) {
+            System.out.print(i+": ");
+            vertices[i].imprimeVizinhos();
+            
+        }
+    }
+    
+    public int maiorGrau(){
         int maior = 0;
         int indiceMaior = 0;
         
-        for (int i = 0; i < vertices.length; i++) {
-            if(maior < vertices[i].d() && !history.foiChecado(vertices[i])){
-                maior = vertices[i].d();
+        for (int i = 0; i < graus.length; i++) {
+            if(maior < graus[i]){
+                maior = graus[i];
                 indiceMaior = i;
             }
-            
         }
-        
-        
         
         return indiceMaior;
     }

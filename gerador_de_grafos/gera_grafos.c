@@ -9,7 +9,7 @@ int main(){
 	rand();rand();rand();rand();
 	
 	for(i = 0; i < 1; i++){
-		n = 16;//rand()%64;
+		n = 13;//rand()%64;
 		fprintf(f,"%d\n",n);
 		
 		for(j = 0; j < n; j++){

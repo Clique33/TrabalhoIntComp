@@ -42,32 +42,17 @@ public class ILS {
     
     Solucao GenerateInitialSolution(){
         System.out.println("Generating Initial Solution...");
-        return geraSolucao(G.vertices[G.maiorGrau(history)]);
+        return geraSolucao((int)Math.floor(Math.random()*100*G.n)%G.n);
     }
     
-    private Solucao geraSolucao(Vertice v){
-        Solucao s = new Solucao(v,G),aux;
-        LinkedList<Solucao> cliques = new LinkedList<>();
-        int i = -1,maior = 0;
-        Solucao maiorS = s;
+    private Solucao geraSolucao(int vertice){
+        Solucao s = new Solucao(vertice,G.vizinhos(vertice));
         
-        while(s.podeMelhorar(history)){
-            i++;
-            cliques.add(s.melhora(history));
-            
+        while(s.podeMelhorar()){
+            s = s.melhora(G);
         }
         
-        for (int j = 0; j < cliques.size(); j++){ 
-            aux = cliques.get(j);
-            //cliques.get(j).imprime();
-            
-            if(maior < aux.k){
-                maior = aux.k;
-                maiorS = aux;
-            }
-        }
-        history.checa(s.gerador);
-        return maiorS; 
+        return s; 
     }
         
     Solucao LocalSearch(Solucao s){

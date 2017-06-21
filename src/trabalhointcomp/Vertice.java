@@ -47,6 +47,14 @@ public class Vertice {
         return false;
     }
     
+    public void imprimeVizinhos(){
+        for (int i = 0; i < vizinhos.size(); i++) {
+            System.out.print(vizinhos.get(i).label + " ");
+            
+        }
+        System.out.println("||"+grau);
+    }
+    
     @Override
     public boolean equals(Object v){
         return this.hashCode() == ((Vertice)v).hashCode();
