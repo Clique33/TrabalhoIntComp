@@ -27,9 +27,10 @@ public class Main {
                 G.imprimeVizinhos();
                 ILS ILS = new ILS(G);
                 /*G.imprime(true);
-                s = ILS.LocalSearch(s);
                 System.out.println(ILS.history);*/
                 Solucao s = ILS.GenerateInitialSolution();
+                s.imprime();
+                s = ILS.LocalSearch(s);
                 s.imprime();
             }
             

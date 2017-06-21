@@ -12,9 +12,12 @@ import java.util.LinkedList;
  * @author Gaburieru
  */
 public class Solucao {
-    int k;
-    int[] clique;
-    int[] vizinhos;
+    int k = 0;
+    int[] clique = null;
+    int[] vizinhos = null;
+
+    public Solucao() {
+    }
     
     public Solucao(int vertice, int[] vizinhos) {
         k =1;
@@ -48,6 +51,35 @@ public class Solucao {
         this.vizinhos = s.atualizaVizinhos(vizinhos);
     }
     
+    public Solucao removeVertice(int vertice,Grafo G){
+        Solucao res = new Solucao();
+        int[] nova = new int[clique.length-1];
+        int cont = 0;
+        
+        for (int i = 0; i < nova.length; i++) {
+            if(clique[cont] != vertice) nova[i] = clique[cont++];
+            else{
+                i--;
+                cont++;
+            }
+        }
+        
+        res.k = k -1;
+        res.clique = nova;
+        res.resetaVizinhos(G);
+        
+        return res;
+    }
+    
+    private void resetaVizinhos(Grafo G){
+        if(k == 0){
+            vizinhos = null;
+            return;
+        } 
+        vizinhos = G.vizinhos(clique[0]);
+        for (int i = 1; i < clique.length; i++) vizinhos = atualizaVizinhos(G.vizinhos(clique[i]));
+    }
+    
     private int[] atualizaVizinhos(int[] vizinhos){
         LinkedList<Integer> aux = new LinkedList<>();
         int i = 0,j = 0;
@@ -70,13 +102,38 @@ public class Solucao {
         
         return res;
     }
-
+    
+    public Solucao maximiza(Grafo G){
+        Solucao res = this;
+        while(res.podeMelhorar()) res = res.melhora(G);
+        return res;
+    }
+    
+    public Solucao maximiza(int vertice, Grafo G){
+        Solucao res = this;
+        res = res.melhora(vertice,G);
+        res = res.maximiza(G);
+        return res;
+    }
+    
     public boolean podeMelhorar(){
         return vizinhos != null && vizinhos.length != 0;
     }
     
+    public boolean podeMelhorar(int vertice){
+        if(vizinhos != null && vizinhos.length != 0){
+            
+        }
+        return false;
+    }
+    
     public Solucao melhora(Grafo G){//Escolhe nó aleatório dos vizinhos e acrescenta ele na clique
         int choice = vizinhos[((int)Math.floor(Math.random()*100*vizinhos.length))%vizinhos.length];
+        return new Solucao(this, choice, G.vizinhos(choice));
+    }
+    
+    public Solucao melhora(int vertice, Grafo G){//Escolhe nó aleatório dos vizinhos e acrescenta ele na clique
+        int choice = vertice;
         return new Solucao(this, choice, G.vizinhos(choice));
     }
     

@@ -48,48 +48,40 @@ public class ILS {
     private Solucao geraSolucao(int vertice){
         Solucao s = new Solucao(vertice,G.vizinhos(vertice));
         
-        while(s.podeMelhorar()){
-            s = s.melhora(G);
-        }
+        s = s.maximiza(G);
         
         return s; 
     }
         
     Solucao LocalSearch(Solucao s){
         System.out.println("Searching locally...");
-        int[] vizinhos = N1(s);
-        Solucao[] solucoes = new Solucao[vizinhos.length];
+        Solucao[] vizinhanca = N1(s);
+        Solucao temp;
         Solucao res = s;
-        int maior = s.k;
         
-        for (int i = 0; i < vizinhos.length; i++) {
-            System.out.println("Generating solutions...");
-            solucoes[i] = this.geraSolucao(G.vertices[vizinhos[i]]);
-            if(solucoes[i].k > maior){                                          //Usar >= solucoes[i].k para testes
-                maior = solucoes[i].k;
-                res = solucoes[i];
-            }
+        for (Solucao vizinhanca1 : vizinhanca) {
+            temp = best(vizinhanca1);
+            if(temp.k > res.k) res = temp;                                      //Best Improvement
         }
         
         return res;
     }
     
-    private int[] N1(Solucao s){
-        LinkedList<Integer> vizinhos = new LinkedList<>();
-        Vertice aux;
+    private Solucao best(Solucao s){
+        Solucao res = s.maximiza(s.vizinhos[0], G);
+        Solucao temp;
         
-        for (Vertice clique : s.clique) {
-            aux = G.vertices[clique.label];
-            if((aux.d() > s.k) && !history.foiChecado(aux)){                    //Usar >= s.k para testes
-                vizinhos.add(aux.label);
-            }
+        for (int i = 1; i < s.vizinhos.length; i++) {
+            temp = s.maximiza(s.vizinhos[i], G);
+            if(res.k < temp.k) res = temp;
         }
+        return res;
+    }
+    
+    private Solucao[] N1(Solucao s){
+        Solucao[] res = new Solucao[s.k];
         
-        int[] res = new int[vizinhos.size()];
-        
-        for (int i = 0; i < res.length; i++) {
-            res[i] = vizinhos.get(i);
-        }
+        for (int i = 0; i < s.clique.length; i++) res[i] = s.removeVertice(s.clique[i], G);
         
         return res;
     }

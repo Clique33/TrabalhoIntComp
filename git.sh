@@ -1,3 +1,3 @@
 git add .
-git commit -m "nada"
+git commit
 git push
