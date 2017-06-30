@@ -5,9 +5,15 @@
  */
 package trabalhointcomp;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -20,27 +26,35 @@ public class Main {
      */
     public static void main(String[] args) {
         Grafo G = null;
+        String instance = "C250.9";
+        int nIter = 50;
         try {
-            Scanner leitor = new Scanner(new File("gerador_de_grafos\\C1000.9.txt"));
+            Scanner leitor = new Scanner(new File("gerador_de_grafos\\" + instance + ".txt"));
+            PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter("log.txt", true)));
             float counter = 0;
             int aux,maior = 0;
             G = new Grafo(leitor);
-            
+            writer.append("========================================================\n");
             long start = System.currentTimeMillis();
-            for (int i = 0; i < 30; i++) {
+            for (int i = 0; i < nIter; i++) {
                 //G.imprimeVizinhos();
                 ILS ILS = new ILS(G);
                 /*G.imprime(true);
                 System.out.println(ILS.history);*/
-                counter += aux = ILS.IteratedLocalSearch(300);
+                counter += aux = ILS.IteratedLocalSearch(200);
                 if(aux > maior) maior = aux;
                 System.out.println(aux);
             }
-            System.out.println("tempo: " + ((float)(System.currentTimeMillis()-start)/1000));
-            System.out.println("maior: " + maior + ", media: " + counter/30);
+            writer.append("Instância: " + instance + ", maior: " + maior + 
+                            ", media: " + counter/nIter + ", tempo: " + ((float)(System.currentTimeMillis()-start)/1000));
+            System.out.println("Instância: " + instance + ", maior: " + maior + 
+                            ", media: " + counter/nIter + ", tempo: " + ((float)(System.currentTimeMillis()-start)/1000));
+            writer.append("\n========================================================\n");
             
         } catch (FileNotFoundException ex) {
             System.out.println("Arquivo não encontrado!!");
+        } catch (IOException ex) {
+            System.out.println("Ué :/");
         }
         
     }

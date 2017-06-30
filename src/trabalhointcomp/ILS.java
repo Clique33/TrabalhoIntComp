@@ -34,7 +34,9 @@ public class ILS {
             s2 = LocalSearch(s1);
             s = AcceptanceCriterion(s,s2,history);
             k++;
-            
+            /*if(k%10 == 0){
+                System.out.println("Foram " + k + "iterações");
+            }*/
         }while(k < iter);//terminal condition met
         
         return s.k;
@@ -43,6 +45,7 @@ public class ILS {
     Solucao GenerateInitialSolution(){
         //System.out.println("Generating Initial Solution...");
         return geraSolucao((int)Math.floor(Math.random()*100*G.n)%G.n);
+        //return geraSolucao(G.maiorGrau());
     }
     
     private Solucao geraSolucao(int vertice){

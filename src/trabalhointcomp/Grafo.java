@@ -33,8 +33,8 @@ public class Grafo {
     }
     
     private void incluiAresta(int v1, int v2){
-        vertices[v1].incluiVizinho(v2);
-        vertices[v2].incluiVizinho(v1);
+        //vertices[v1].incluiVizinho(v2);
+        //vertices[v2].incluiVizinho(v1);
         matrizAdjacencias[v1][v2] = matrizAdjacencias[v2][v1] = true;
         graus[v1]++;
         graus[v2]++;

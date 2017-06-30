@@ -133,7 +133,7 @@ public class Solucao {
      */   
     public Solucao maximiza(Grafo G){//Maximiza aleatóriamente
         Solucao res = this;
-        while(res.podeMelhorar()) res = res.melhora(G);
+        while(res.podeMelhorar()) res = res.melhora2(G);
         return res;
     }
     /**
@@ -163,6 +163,22 @@ public class Solucao {
     
     public Solucao melhora(Grafo G){//Escolhe nó aleatório dos vizinhos e acrescenta ele na clique
         int choice = vizinhos[((int)Math.floor(Math.random()*100*vizinhos.length))%vizinhos.length];
+        return new Solucao(this, choice, G.vizinhos(choice));
+    }
+    
+    public Solucao melhora2(Grafo G){//Escolhe nó dos vizinhos que crie a maior clique e acrescenta ele na clique
+        int choice = vizinhos[0];
+        int maior = atualizaVizinhos(G.vizinhos(vizinhos[0])).length;
+        
+        for (int i = 1; i < vizinhos.length; i++) {
+            int aux = atualizaVizinhos(G.vizinhos(i)).length;
+            if(maior < aux){
+                maior = aux;
+                choice = vizinhos[i];
+            }
+            
+        }
+        
         return new Solucao(this, choice, G.vizinhos(choice));
     }
     

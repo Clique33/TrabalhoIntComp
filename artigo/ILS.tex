@@ -1,5 +1,6 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
+\usepackage{amsmath}
 
 \title{Iterated Local Search no Problema da Clique Máxima}
 \author{Gabriel Cardoso de Carvalho}
@@ -8,13 +9,42 @@
 \begin{document}
 \maketitle
 
-\textbf{Resumo:} Esse artigo mostra os resultados de uma implementação do Iterated Local Search no problema da Clique Máxima, comparando com os resultados de outras implementações desse mesmo método e de outros como um algoritmo genético.
+\textbf{Resumo:} Esse artigo mostra os resultados de uma implementação do Iterated Local Search no problema da Clique Máxima, comparando com os resultados de outras implementações desse mesmo método e de outros métodos como o genético.
 
 \section{Introdução}
+
+O problema de encontrar a Clique Máxima (CM) é extremamente conhecido e estudado, pois inúmeros problemas práticos de diversas áreas diferentes, como biologia computacional, economia e análise de redes sociais podem ser modelados como CM. 
+Além disso, a sua versão de decisão foi um dos primeiros problemas a serem provados NP-Completos.\par 
+
+Ele pode ser definido da seguinte maneira, seja o grafo $G=(V,E)$ onde $V = 1,2, ... , n$ é o conjunto de vértices e $E \subseteq V \times V$ é o conjunto de arestas, uma Clique $C \subseteq V $é tal que $\forall i,j \in C, (i,j) \in E$ 
+, ou seja, todos os vértices em $C$ são adjacentes entre si. Ou ainda, $C$ é um subgrafo completo de $G$. O problema da clique máxima é o problema de encontrar a clique de cardinalidade máxima
+d0 grafo $G$.\par
+
+
+
 \section{ILS}
-\subsection{Generação da Solução Inicial}
+\subsection{Geração da Solução Inicial}
 \subsection{Busca Local}
 \subsection{Perturbação}
 \subsection{Critério de Aceitação}
+\section{Resultados Experimentais}
+\section{Conclusão}
+
+
+\begin{thebibliography}{9}
+
+\bibitem{kopt}
+  Katayama, Kengo, Masashi Sadamatsu, and Hiroyuki Narihisa. 
+"Iterated k-opt local search for the maximum clique problem." 
+\textit{Lecture Notes in Computer Science} 4446 (2007): 84.
+
+\bibitem{review}
+Wu, Qinghua, and Jin-Kao Hao. 
+"A review on algorithms for maximum clique problems." 
+\textit{European Journal of Operational Research} 242.3 (2015): 693-709.
+
+\bibitem{}
+
+\end{thebibliography}
 
 \end{document}
