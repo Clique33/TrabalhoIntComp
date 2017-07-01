@@ -1,6 +1,7 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
+\usepackage{color}
 
 \title{Iterated Local Search no Problema da Clique Máxima}
 \author{Gabriel Cardoso de Carvalho}
@@ -17,9 +18,13 @@ O problema de encontrar a Clique Máxima (CM) é extremamente conhecido e estuda
 Além disso, a sua versão de decisão foi um dos primeiros problemas a serem provados NP-Completos.\par 
 
 Ele pode ser definido da seguinte maneira, seja o grafo $G=(V,E)$ onde $V = 1,2, ... , n$ é o conjunto de vértices e $E \subseteq V \times V$ é o conjunto de arestas, uma Clique $C \subseteq V $é tal que $\forall i,j \in C, (i,j) \in E$ 
-, ou seja, todos os vértices em $C$ são adjacentes entre si. Ou ainda, $C$ é um subgrafo completo de $G$. O problema da clique máxima é o problema de encontrar a clique de cardinalidade máxima
-d0 grafo $G$.\par
+, ou seja, todos os vértices em $C$ são adjacentes entre si. Ou ainda, $C$ é um subgrafo completo de $G$. O problema da clique máxima é o problema de encontrar a clique de cardinalidade máxima do grafo $G$.\par
 
+Diversas soluções foram propostas, tanto métodos exatos quanto heurísticas e metaheurísticas \cite{review,pardaloshand,DIMACS2}. As propostas no geral tendem a utilizar o sistema \textit{breach and bound} nos métodos exatos e heurísticas gulosas em buscas locais, preferindo vértices de maior grau. De maneira geral, os algoritmos gulosos partem de uma clique $C$ inicial que contém apenas um vértice e um conjunto $N_C$ de vértices $v \in V$ que são os vértices vizinhos à $C$, ou seja, $\forall u \in C, v$ é adjacente à $u$. Daí o algoritmo adiciona vértices de  $N_C$ em $C$, escolhendo sempre o vértice de $N_C$ que tem o maior grau no subgrafo $G(N_C)$, até que $C$ seja \textit{maximal}, ou seja, até que não exista uma clique $C'$ maior que $C$ tal que $C \subseteq C'$. Em outros trabalhos esse método é chamado de \textit{Busca Local 1-opt } \cite{KLS}.\par
+
+A metaheurística implementada nesse artigo é a \textit{Iterated Local Search (ILS)}, que pode ser resumida como uma metaheurística que cria, de maneira iterativa, uma sequência de soluções geradas por uma heurística interna (ou busca local) \cite{handbook}. É esperado que as soluções providas pelo ILS sejam melhores do que uma simples repetição da heurística de maneira aleatória.
+
+\textcolor{red}{Nesse artigo é proposta uma implementação do ILS focada na aleatoriedade, de modo a comparar seu desempenho com métodos gulosos, como a implementação do IKLS de \textit{Katayama} \cite{kopt}, que utiliza a \textit{Busca Local k-opt (KLS)} \cite{KLS} como busca local, que é uma generalização da busca local 1-opt, onde adiciona-se $k$ vértices à clique por vez, permitindo retirar vértices da clique para isso, de maneira dinâmica, ou seja, o $k$ não é fixo,  e uma perturbação baseada na \textit{menor conecividade por arestas (LEC-KLS)}, onde escolhe-se um vértice $v$ que não pertence à $C$, de maneira que $v$ seja adjacente à menor quantidade de vértices de $C$. Então, adiciona-se $v$  à $C$ e remove de $C$ todos os vértices que não vizinhos à $v$.}\par
 
 
 \section{ILS}
@@ -31,7 +36,7 @@ d0 grafo $G$.\par
 \section{Conclusão}
 
 
-\begin{thebibliography}{9}
+\begin{thebibliography}{58}
 
 \bibitem{kopt}
   Katayama, Kengo, Masashi Sadamatsu, and Hiroyuki Narihisa. 
@@ -43,7 +48,23 @@ Wu, Qinghua, and Jin-Kao Hao.
 "A review on algorithms for maximum clique problems." 
 \textit{European Journal of Operational Research} 242.3 (2015): 693-709.
 
-\bibitem{}
+\bibitem{pardaloshand}
+I.M. Bomze, M. Budinich, P.M. Pardalos, and M. Pelillo. The maximum clique
+problem. In D.-Z. Du and P.M. Pardalos, editors, \textit{Handbook of Combinatorial
+Optimization (suppl. Vol. A)}, pp. 1–74. Kluwer, 1999.
+
+\bibitem{DIMACS2}
+D.S. Johnson and M.A. Trick. \textit{Cliques, Coloring, and Satisfiability}. Second DIMACS
+Implementation Challenge, DIMACS Series in Discrete Mathematics and
+Theoretical Computer Science. American Mathematical Society, 1996.
+
+\bibitem{KLS}
+ K. Katayama, A. Hamamoto, and H. Narihisa. An effective local search for the
+maximum clique problem. \textit{Information Processing Letters}, Vol. 95, No. 5, pp.
+503–511, 2005.
+
+\bibitem{handbook}
+Glover, Fred W., and Gary A. Kochenberger, eds. \textit{Handbook of metaheuristics}. Vol. 57. Springer Science \& Business Media, 2006.
 
 \end{thebibliography}
 
