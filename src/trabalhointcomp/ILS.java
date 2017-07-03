@@ -52,6 +52,11 @@ public class ILS {
         Solucao s = new Solucao(vertice,G.vizinhos(vertice));
         
         s = s.maximiza(G);
+        /*
+        s
+        while(Nc diff vazio) 
+            adiciona vertice aleatório de Nc a s
+        */
         
         return s; 
     }
