@@ -11,7 +11,7 @@
 \begin{document}
 \maketitle
 
-\textbf{Resumo:} Esse artigo mostra os resultados de uma implementação do Iterated Local Search no problema da Clique Máxima baseada em decisões aleatórias com o objetivo de comparar com os resultados de outras implementações disponíveis na literatura. Os resultados são, como esperado, piores do que em soluções gulosas, porém espera-se que uma solução aleatória seja mais rápida, já que menos decisões são tomadas.
+\textbf{Resumo:} Esse artigo mostra os resultados de uma implementação do Iterated Local Search no problema da Clique Máxima baseada em decisões aleatórias com o objetivo de comparar com os resultados de outras implementações disponíveis na literatura para as instâncias do DIMACS. Os resultados são, como esperado, piores do que em soluções gulosas, porém espera-se que uma solução aleatória seja mais rápida, já que menos decisões são tomadas.
 
 \section{Introdução}
 
@@ -27,7 +27,7 @@ A metaheurística implementada nesse artigo é a \textit{Iterated Local Search (
 
 Nesse artigo é proposta uma implementação do ILS focada na aleatoriedade, de modo a comparar seu desempenho com métodos gulosos, como a implementação do IKLS de \textit{Katayama} \cite{kopt}, que utiliza a \textit{Busca Local k-opt (KLS)} \cite{KLS} como busca local, que é uma generalização da busca local 1-opt, onde adiciona-se $k$ vértices à clique por vez, permitindo retirar vértices da clique para isso, de maneira dinâmica, ou seja, o $k$ não é fixo,  e uma perturbação baseada na \textit{menor conecividade por arestas (LEC-KLS)}, onde escolhe-se um vértice $v$ que não pertence à $C$, de maneira que $v$ seja adjacente à menor quantidade de vértices de $C$. Então, adiciona-se $v$  à $C$ e remove de $C$ todos os vértices que não são vizinhos à $v$.\par
 
-A seção 2 apresenta como foi feita a implementação do ILS, enquanto a seção 3 cobre toda a implementação e os resultados experimentais. A seção 4 Apresenta as conclusões e os trabalhos futuros.
+A seção 2 apresenta como foi feita a implementação do ILS, enquanto a seção 3 cobre toda a implementação e os resultados experimentais do método sobre as instâncias do DIMACS \cite{DIMACS2}. A seção 4 Apresenta as conclusões e os trabalhos futuros.
 
 \section{ILS}
 
@@ -60,23 +60,30 @@ A função \textit{geraSolucao($G$, v)} gera a solução inicial ao criar uma cl
 \begin{algorithm}
  \KwData{Grafo $G$, vértice $v$}
  $s_0$ = clique contendo $v$\;
- $N_C$ = $V_v$\;
+ $N_{s_0}$ = $V_v$\;
  $k$ = 1\;
  \While{$N_C \neq \emptyset$}{
   $u$ = vértice aleatório de $N_C$\;
   $s_0$ =$s_0 + u$\;
-  $N_C$ = $N_C \cap V_u$\;
+  $N_{s_0}$ = $N_{s_0} \cap V_u$\;
  $k_{++}$\;
  }
  \KwRet{clique $s_0$ maximal}
  \caption{função geraSolucao}
 \end{algorithm}
 
-No algoritmo 2, $N_C$ representa os vértices que podem ser adicionados na clique $C$, enquanto $V_V$ representa os vértices adjacentes ao vértice $v$. O algoritmo para quando não há mais nenhum vértice que possa ser adicionado a $C$.\par
+No algoritmo 2, $N_{s_0}$ representa os vértices que podem ser adicionados na clique $s_0$, enquanto $V_v$ representa os vértices adjacentes ao vértice $v$. O algoritmo para quando não há mais nenhum vértice que possa ser adicionado a $C$.\par
 
 Além de ser utilizada para criar a solução inicial, a função \textit{GeraSolucaoInicial($G$)} é chamada novamente sempre que a Perturbação decide que deve ser feita uma reinicialização.
 
 \subsection{Busca Local}
+
+A busca local vai receber uma clique $C$, e a partir dessa clique, vai tentar melhorá-la olhando para as vizinhanças de $C$. Temos duas vizinhanças, $N_1$ e $N_2$ que são explicadas mas a frente. Elas são conjuntos de cliques vizinhas a $C$, dada alguma propriedade. Dados esses conjuntos, a busca local irá simplesmente maximizar cada uma das cliques e escolher uma delas.\par
+
+Definimos aqui $N_i(C)$ como a vizinhança da clique $C$, tal que, $\forall C' \in N_i(C), $\\$C' \subset C,  k(C') = k(C)-i$. Portanto as vizinhanças que usaremos, $N_1$ e $N_2$, são subcliques de $C$ com tamanhos $k-1$ e $k-2$, respectivamente, onde $k$ é o tamanho da clique $C$.\par
+
+$N_1$ tem tamanho $k$, ou seja, temos um vizinho para cada vértice de $C$. Para $N_2$, por outro lado temos $\binom{k}{2}$  vizinhos, ou ainda, $\frac{k^2}{2}$. Dessa forma, é possível utilizar a técnica de \textit{Best Improvement} (testar todos e escolher o melhor) para $N_1$, porém para $N_2$, se faz necessário utilizar \textit{First Improvement} (escolher o primeiro que melhorar a solução atual). O algoritmo 3 mostra o pseudo-código da busca local.\par
+
 \subsection{Perturbação}
 \subsection{Critério de Aceitação}
 \section{Resultados Experimentais}
