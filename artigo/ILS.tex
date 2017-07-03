@@ -2,6 +2,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
 \usepackage{color}
+\usepackage[]{algorithm2e}
 
 \title{Iterated Local Search no Problema da Clique Máxima}
 \author{Gabriel Cardoso de Carvalho}
@@ -24,10 +25,31 @@ Diversas soluções foram propostas, tanto métodos exatos quanto heurísticas e
 
 A metaheurística implementada nesse artigo é a \textit{Iterated Local Search (ILS)}, que pode ser resumida como uma metaheurística que cria, de maneira iterativa, uma sequência de soluções geradas por uma heurística interna (ou busca local) \cite{handbook}. É esperado que as soluções providas pelo ILS sejam melhores do que uma simples repetição da heurística de maneira aleatória.
 
-\textcolor{red}{Nesse artigo é proposta uma implementação do ILS focada na aleatoriedade, de modo a comparar seu desempenho com métodos gulosos, como a implementação do IKLS de \textit{Katayama} \cite{kopt}, que utiliza a \textit{Busca Local k-opt (KLS)} \cite{KLS} como busca local, que é uma generalização da busca local 1-opt, onde adiciona-se $k$ vértices à clique por vez, permitindo retirar vértices da clique para isso, de maneira dinâmica, ou seja, o $k$ não é fixo,  e uma perturbação baseada na \textit{menor conecividade por arestas (LEC-KLS)}, onde escolhe-se um vértice $v$ que não pertence à $C$, de maneira que $v$ seja adjacente à menor quantidade de vértices de $C$. Então, adiciona-se $v$  à $C$ e remove de $C$ todos os vértices que não vizinhos à $v$.}\par
+\textcolor{red}{Nesse artigo é proposta uma implementação do ILS focada na aleatoriedade, de modo a comparar seu desempenho com métodos gulosos, como a implementação do IKLS de \textit{Katayama} \cite{kopt}, que utiliza a \textit{Busca Local k-opt (KLS)} \cite{KLS} como busca local, que é uma generalização da busca local 1-opt, onde adiciona-se $k$ vértices à clique por vez, permitindo retirar vértices da clique para isso, de maneira dinâmica, ou seja, o $k$ não é fixo,  e uma perturbação baseada na \textit{menor conecividade por arestas (LEC-KLS)}, onde escolhe-se um vértice $v$ que não pertence à $C$, de maneira que $v$ seja adjacente à menor quantidade de vértices de $C$. Então, adiciona-se $v$  à $C$ e remove de $C$ todos os vértices que não são vizinhos à $v$.}\par
 
+A seção 2 apresenta como foi feita a implementação do ILS, enquanto a seção 3 cobre toda a implementação e os resultados experimentais. A seção 4 Apresenta as conclusões e os trabalhos futuros.
 
 \section{ILS}
+
+\begin{algorithm}[H]
+ \KwData{Grafo $G$, inteiro $n_{iter}$}
+ $s_0$ = GeraSolucaoinicial($G$)\;
+ $s*$ = BuscaLocal($s_0$)\;
+ $k$ = 0\;
+ \While{$k$ for menor que $n_{iter}$}{
+  $s'$ = Perturbacao($s*$)\;
+  $s*'$ = BuscaLocal($s'$)\;
+  $s*$ = CriterioAceitacao($s*, s*'$)\;
+ $k_{++}$\;
+ }
+ \caption{Estrutura do ILS}
+\end{algorithm}
+
+
+Esta implementação do ILS segue o padrão de Glover \cite{handbook} utilizando o algoritmo 1, e os detalhes de cada função são descritos nas subseções seguintes. 
+
+
+
 \subsection{Geração da Solução Inicial}
 \subsection{Busca Local}
 \subsection{Perturbação}
