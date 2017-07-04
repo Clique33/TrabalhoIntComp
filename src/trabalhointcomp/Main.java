@@ -12,8 +12,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -26,7 +24,7 @@ public class Main {
      */
     public static void main(String[] args) {
         Grafo G = null;
-        String instance = "C2000.9";
+        String instance = "MANN_a27";
         int nIter = 15;
         try {
             Scanner leitor = new Scanner(new File("gerador_de_grafos\\" + instance + ".txt"));
