@@ -93,6 +93,44 @@ public class Solucao {
         return res;
     }
     
+    public Solucao removeVerticeTABU(int vertice,Grafo G){
+        Solucao res = new Solucao();
+        int[] nova = new int[clique.length-1];
+        int cont = 0;
+        
+        for (int i = 0; i < nova.length; i++) {
+            if(clique[cont] != vertice) nova[i] = clique[cont++];
+            else{
+                i--;
+                cont++;
+            }
+        }
+        
+        res.k = k -1;
+        res.clique = nova;
+        res.resetaVizinhos(G,vertice);
+        
+        return res;
+    }
+    
+    private void resetaVizinhos(Grafo G,int vertice){
+        if(k == 0){
+            vizinhos = null;
+            return;
+        } 
+        int j = 0;
+        vizinhos = new int[G.vizinhos(clique[0]).length-1]; 
+        G.vizinhos(clique[0]);
+        
+        for (int i = 0; i < G.vizinhos(clique[0]).length; i++) {
+            if(G.vizinhos(clique[0])[i] != vertice){
+               vizinhos[j++] =  G.vizinhos(clique[0])[i];
+            }
+        }
+        
+        for (int i = 1; i < clique.length; i++) vizinhos = atualizaVizinhos(G.vizinhos(clique[i]));
+    }
+
     private void resetaVizinhos(Grafo G){
         if(k == 0){
             vizinhos = null;
@@ -133,7 +171,9 @@ public class Solucao {
      */   
     public Solucao maximiza(Grafo G){//Maximiza aleatóriamente
         Solucao res = this;
-        while(res.podeMelhorar()) res = res.melhora2(G);
+        while(res.podeMelhorar()){
+            res = res.melhora(G);
+        }
         return res;
     }
     /**

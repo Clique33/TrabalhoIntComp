@@ -1,0 +1,1 @@
+Instância: C2000.9, maior: 70, media: 66.46667, tempo: 6268.48, tempo(média): 417.89865

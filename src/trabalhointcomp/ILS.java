@@ -30,13 +30,11 @@ public class ILS {
         
         do{
             
-            s1 = Perturbation(s,history);
+            s1 = Perturbation(s);
             s2 = LocalSearch(s1);
-            s = AcceptanceCriterion(s,s2,history);
-            k++;
-            /*if(k%10 == 0){
-                System.out.println("Foram " + k + "iterações");
-            }*/
+            s = AcceptanceCriterion(s,s2);
+            k++;    
+            if(k%10 == 0) System.out.print(k + " ");
         }while(k < iter);//terminal condition met
         
         return s.k;
@@ -76,8 +74,19 @@ public class ILS {
         Solucao res = s;
         
         for (Solucao vizinhanca1 : vizinhanca) {
-            temp = best(vizinhanca1);
+            temp = vizinhanca1.maximiza(G);
             if(temp.k > res.k) res = temp;                                      //Best Improvement
+        }
+        
+        if(res == s){
+            
+            vizinhanca = N2(s);
+            
+            for (int i = 0; i < vizinhanca.length; i++) {
+                temp = vizinhanca[i].maximiza(G);
+                if(temp.k > res.k) res = temp;    
+                
+            }
         }
         
         return res;
@@ -97,12 +106,41 @@ public class ILS {
     private Solucao[] N1(Solucao s){
         Solucao[] res = new Solucao[s.k];
         
-        for (int i = 0; i < s.clique.length; i++) res[i] = s.removeVertice(s.clique[i], G);
+        for (int i = 0; i < s.clique.length; i++) res[i] = s.removeVerticeTABU(s.clique[i], G);
         
         return res;
     }
     
-    Solucao Perturbation(Solucao s1, Historico history){
+    private Solucao[] N2Total(Solucao s){
+        Solucao[] res = new Solucao[(s.k*s.k - s.k)/2];
+        int idx = 0;
+        
+        for (int i = 0; i < s.clique.length; i++){
+            for (int j = i+1; j < s.clique.length; j++) {
+                res[idx]  = s.removeVerticeTABU(s.clique[i], G);
+                res[idx]  = res[idx].removeVerticeTABU(s.clique[j], G);
+                idx++;
+            }
+        }
+        
+        return res;
+    }
+    
+    private Solucao[] N2(Solucao s){
+        Solucao[] res = new Solucao[s.k];
+        int j,k;
+        
+        for (int i = 0; i < s.clique.length; i++){
+                j = (int)Math.floor(Math.random()*100*(s.k-1))%(s.k-1);
+                k = 1 + j + (int)Math.floor(Math.random()*100*(s.k-j-1))%(s.k-j-1);
+                res[i]  = s.removeVerticeTABU(s.clique[j], G);
+                res[i]  = res[i].removeVerticeTABU(s.clique[k], G);
+        }
+        
+        return res;
+    }
+    
+    Solucao Perturbation(Solucao s1){
         //System.out.println("Perturbing...");
         Solucao res = s1;
         
@@ -122,7 +160,7 @@ public class ILS {
         return res;
     }
     
-    private Solucao AcceptanceCriterion(Solucao s1, Solucao s2, Historico history){
+    private Solucao AcceptanceCriterion(Solucao s1, Solucao s2){
         if(s1.k > s2.k) return s1;
         return s2;
     }

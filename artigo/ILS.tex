@@ -82,7 +82,7 @@ A busca local vai receber uma clique $C$, e a partir dessa clique, vai tentar me
 
 Definimos aqui $N_i(C)$ como a vizinhança da clique $C$, tal que, $\forall C' \in N_i(C), $\\$C' \subset C,  k(C') = k(C)-i$. Portanto as vizinhanças que usaremos, $N_1$ e $N_2$, são subcliques de $C$ com tamanhos $k-1$ e $k-2$, respectivamente, onde $k$ é o tamanho da clique $C$.\par
 
-$N_1$ tem tamanho $k$, ou seja, temos um vizinho para cada vértice de $C$. Para $N_2$, por outro lado temos $\binom{k}{2}$  vizinhos, ou ainda, $\frac{k^2}{2}$. Dessa forma, é possível utilizar a técnica de \textit{Best Improvement} (testar todos e escolher o melhor) para $N_1$. Caso $N_1$ não produza uma melhora, então testa-se para $N_2$, onde se faz necessário utilizar \textit{First Improvement} (escolher o primeiro que melhorar a solução atual) devido ao seu tamanho. O algoritmo 3 mostra o pseudo-código da busca local.\par
+$N_1$ tem tamanho $k$, ou seja, temos um vizinho para cada vértice de $C$. Para $N_2$, por outro lado temos $\binom{k}{2}$  vizinhos, ou ainda, $\frac{k^2 - k}{2}$. Dessa forma, é possível utilizar a técnica de \textit{Best Improvement} (testar todos e escolher o melhor) para $N_1$. Caso $N_1$ não produza uma melhora, então testa-se para $N_2$, onde se faz necessário utilizar \textit{First Improvement} (escolher o primeiro que melhorar a solução atual) devido ao seu tamanho. O algoritmo 3 mostra o pseudo-código da busca local.\par
 
 \begin{algorithm}
  \KwData{Clique $s$}
@@ -106,7 +106,7 @@ $N_1$ tem tamanho $k$, ou seja, temos um vizinho para cada vértice de $C$. Para
 \For{$c \in N_2$}{
   $c$ = maximiza($c$)\;
   \uIf{$k(c) > k(s')$}{
-   \KwRet{clique $c$}
+   $s'$ = $c$\;
   }
  }
 
@@ -116,7 +116,7 @@ $N_1$ tem tamanho $k$, ou seja, temos um vizinho para cada vértice de $C$. Para
 
 As cliques, tanto em $N_1$ quanto $N_2$, são proibidas de voltarem às suas cliques originais, ou seja, seja $c \in N_1$ se $c = s + u$, onde $s$ é a clique original de $c$ e $u$ é o vértice de $s$ que não está em $c$, então $u$ não faz parte de $N_C(c)$.\par
 
-\textcolor{red}{Além disso, como o tamanho de $N_2$ é muito grande, calcula-se apenas $k$ dos $\frac{k^2}{2}$ elementos de $N_2$ (NESSE CASO DEVE TrOCAR O PSEUDOCÓDIGO) de maneira aleatória.} O maior problema de se buscar todo o $N_2$ é a complexidade de espaço que se torna grande demais em grafos muito grandes, como as instâncias \textit{C4000.5}, \textit{MANN\_a81} e \textit{keller6} do DIMACS \cite{DIMACS2}.\par
+ Buscar todo o $N_2$ implica em complexidades de tempo e espaço grandes demais em grafos muito grandes, como as instâncias \textit{C4000.5}, \textit{MANN\_a81} e \textit{keller6} do DIMACS \cite{DIMACS2}. Dessa forma, como o tamanho de $N_2$ é muito grande, calcula-se apenas $k$ dos $\frac{k^2-k}{2}$ elementos de $N_2$ de maneira aleatória.\par
 
 A busca local portanto sempre vai retornar uma clique maior que a entrada dela, ou a própria entrada caso não consiga melhorá-la. 
 
@@ -154,8 +154,16 @@ O primeiro caso é o caso em que sempre retorna-se o melhor dos dois, que seria 
 Nos experimentos os três métodos são testados para descobrir qual apresenta melhores resultados em média. Mas é certo que nenhum deles apresenta ganho de velocidade no procedimento geral.
 
 \section{Resultados Experimentais}
+
+Toda a implementação foi feita na linguagem JAVA e pode ser acessado por git \cite{git}. Diversos testes foram feitos nas instâncias do DIMACS, com foco nos mais simples, pois é possível testar mais vezes já que essas instâncias são menores.
+
 \section{Conclusão}
 
+Neste artigo foi apresentada uma implementação do Iterated Local Search no problema da clique máxima. Essa implementação focou na tomada de decisões aleatórias em todas as fases do algoritmo do ILS, utilizando duas vizinhanças diferentes para a busca local, $N_1$ e $N_2$, que consistem nas subcliques da clique que passará pela busca local de tamanho $k-1$ e $k-2$ respectivamente, onde $k$ é o tamanho da clique. A perturbação simplesmente retira uma quantidade aleatória de vértices da clique, e eventualmente reinicializa o processo.\par
+
+Os resultados, como esperado, mostram que aleatoriedade é pior do que utilizar uma heurística gulosa para a busca local. A implementação desse artigo encontra uma clique em média X\% pior que a média do IKLS \cite{kopt} e a maior clique encontrada é Y\% pior que o IKLS. \par
+
+Trabalhos futuros envolvem testar diversas diferentes buscas locais e perturbações, de maneira a encontrar a melhor possível forma do ILS para o problema da clique máxima. Além disso, uma comparação da melhor forma encontrada com outros tipos de mataheurísticas, como algoritmos genéticos, GRASP, evolutivos entre outros.
 
 \begin{thebibliography}{58}
 
@@ -185,7 +193,10 @@ maximum clique problem. \textit{Information Processing Letters}, Vol. 95, No. 5,
 503–511, 2005.
 
 \bibitem{handbook}
-Glover, Fred W., and Gary A. Kochenberger, eds. \textit{Handbook of metaheuristics}. Vol. 57. Springer Science \& Business Media, 2006.
+Glover, Fred W., and Gary A. Kochenberger, eds. \textit{Handbook of metaheuristics}. Vol. 57. Springer Science \& Business Media, 2006
+
+\bibitem{git}
+https://github.com/Clique33/TrabalhoIntComp.git Acesso em 04/07/2017.
 
 \end{thebibliography}
 

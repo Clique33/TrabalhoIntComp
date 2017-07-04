@@ -26,8 +26,8 @@ public class Main {
      */
     public static void main(String[] args) {
         Grafo G = null;
-        String instance = "C250.9";
-        int nIter = 50;
+        String instance = "C2000.9";
+        int nIter = 15;
         try {
             Scanner leitor = new Scanner(new File("gerador_de_grafos\\" + instance + ".txt"));
             PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter("log.txt", true)));
@@ -35,6 +35,7 @@ public class Main {
             int aux,maior = 0;
             G = new Grafo(leitor);
             writer.append("========================================================\n");
+            
             long start = System.currentTimeMillis();
             for (int i = 0; i < nIter; i++) {
                 //G.imprimeVizinhos();
@@ -45,10 +46,12 @@ public class Main {
                 if(aux > maior) maior = aux;
                 System.out.println(aux);
             }
+            float end = (float)(System.currentTimeMillis()-start)/1000;
+            
             writer.append("Instância: " + instance + ", maior: " + maior + 
-                            ", media: " + counter/nIter + ", tempo: " + ((float)(System.currentTimeMillis()-start)/1000));
+                            ", media: " + counter/nIter + ", tempo: " + end + ", tempo(média): " + end/nIter);
             System.out.println("Instância: " + instance + ", maior: " + maior + 
-                            ", media: " + counter/nIter + ", tempo: " + ((float)(System.currentTimeMillis()-start)/1000));
+                            ", media: " + counter/nIter + ", tempo: " + end + ", tempo(média): " + end/nIter);
             writer.append("\n========================================================\n");
             
         } catch (FileNotFoundException ex) {
