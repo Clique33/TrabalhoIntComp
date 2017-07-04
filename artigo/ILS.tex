@@ -2,7 +2,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
 \usepackage{color}
-\usepackage[ruled,portuguese]{algorithm2e}
+\usepackage[boxed,portuguese]{algorithm2e}
 
 \title{Iterated Local Search no Problema da Clique Máxima}
 \author{Gabriel Cardoso de Carvalho}
@@ -49,13 +49,13 @@ Esta implementação do ILS segue o padrão de Glover \cite{handbook} utilizando
  \caption{Estrutura do ILS}
 \end{algorithm}
 
-Os  detalhes de cada função são descritos nas subseções seguintes. 
+Os detalhes de cada função são descritos nas subseções seguintes. 
 
 \subsection{Geração da Solução Inicial}
 
 A função \textit{GeraSolucaoInicial($G$)} somente escolhe um vértice aleatório $v$ de $G$ e chama a função \textit{geraSolucao($G$, v)}.\par
 
-A função \textit{geraSolucao($G$, v)} gera a solução inicial ao criar uma clique $C$ de tamanho 1 utlizando o vértice $v$. Essa clique é um estrutura que contém os vértices que a compõe, o seu tamanho, e um conjunto $N_C$ de vértices que podem ser adicionados à ela. A partir daí, adiciona-se vértices aleatórios de $N_C$ à $C$ e atualiza seu tamanho e $N_C$ até que a clique $C$ seja maximal, como mostra o algoritmo 2.\par
+A função \textit{geraSolucao($G$, v)} gera a solução inicial ao criar uma clique $C$ de tamanho 1 utlizando o vértice $v$. Essa clique é um estrutura que contém os vértices que a compõe (denotados por $C$), o seu tamanho $k$, e um conjunto $N_C$ de vértices que podem ser adicionados à ela. A partir daí, adiciona-se vértices aleatórios de $N_C$ à $C$ e atualiza seu tamanho e $N_C$ até que a clique $C$ seja maximal, como mostra o algoritmo 2.\par
 
 \begin{algorithm}
  \KwData{Grafo $G$, vértice $v$}
@@ -82,10 +82,77 @@ A busca local vai receber uma clique $C$, e a partir dessa clique, vai tentar me
 
 Definimos aqui $N_i(C)$ como a vizinhança da clique $C$, tal que, $\forall C' \in N_i(C), $\\$C' \subset C,  k(C') = k(C)-i$. Portanto as vizinhanças que usaremos, $N_1$ e $N_2$, são subcliques de $C$ com tamanhos $k-1$ e $k-2$, respectivamente, onde $k$ é o tamanho da clique $C$.\par
 
-$N_1$ tem tamanho $k$, ou seja, temos um vizinho para cada vértice de $C$. Para $N_2$, por outro lado temos $\binom{k}{2}$  vizinhos, ou ainda, $\frac{k^2}{2}$. Dessa forma, é possível utilizar a técnica de \textit{Best Improvement} (testar todos e escolher o melhor) para $N_1$, porém para $N_2$, se faz necessário utilizar \textit{First Improvement} (escolher o primeiro que melhorar a solução atual). O algoritmo 3 mostra o pseudo-código da busca local.\par
+$N_1$ tem tamanho $k$, ou seja, temos um vizinho para cada vértice de $C$. Para $N_2$, por outro lado temos $\binom{k}{2}$  vizinhos, ou ainda, $\frac{k^2}{2}$. Dessa forma, é possível utilizar a técnica de \textit{Best Improvement} (testar todos e escolher o melhor) para $N_1$. Caso $N_1$ não produza uma melhora, então testa-se para $N_2$, onde se faz necessário utilizar \textit{First Improvement} (escolher o primeiro que melhorar a solução atual) devido ao seu tamanho. O algoritmo 3 mostra o pseudo-código da busca local.\par
+
+\begin{algorithm}
+ \KwData{Clique $s$}
+ $N_1$ = conjunto de subcliques de $s$ de tamanho $k(s)-1$\;
+ $s'$ = s\;
+ 
+\For{$c \in N_1$}{
+  $c$ = maximiza($c$)\;
+  \uIf{$k(c) > k(s')$}{
+   $s'$ = $c$\;
+  }
+ }
+
+  \uIf{$k(s') > k(s)$}{
+   \KwRet{clique $s'$}\;
+
+  }
+
+ $N_2$ = conjunto de subcliques de $s$ de tamanho $k(s)-2$\;
+
+\For{$c \in N_2$}{
+  $c$ = maximiza($c$)\;
+  \uIf{$k(c) > k(s')$}{
+   \KwRet{clique $c$}
+  }
+ }
+
+ \KwRet{clique $s$}
+ \caption{BuscaLocal}
+\end{algorithm}
+
+As cliques, tanto em $N_1$ quanto $N_2$, são proibidas de voltarem às suas cliques originais, ou seja, seja $c \in N_1$ se $c = s + u$, onde $s$ é a clique original de $c$ e $u$ é o vértice de $s$ que não está em $c$, então $u$ não faz parte de $N_C(c)$.\par
+
+\textcolor{red}{Além disso, como o tamanho de $N_2$ é muito grande, calcula-se apenas $k$ dos $\frac{k^2}{2}$ elementos de $N_2$ (NESSE CASO DEVE TrOCAR O PSEUDOCÓDIGO) de maneira aleatória.} O maior problema de se buscar todo o $N_2$ é a complexidade de espaço que se torna grande demais em grafos muito grandes, como as instâncias \textit{C4000.5}, \textit{MANN\_a81} e \textit{keller6} do DIMACS \cite{DIMACS2}.\par
+
+A busca local portanto sempre vai retornar uma clique maior que a entrada dela, ou a própria entrada caso não consiga melhorá-la. 
 
 \subsection{Perturbação}
+
+A perturbação simplesmente sorteia um valor $2 \leq n \leq k$ e remove de $s*$ $n$ vértices aleatórios. Caso $n = k$, então é feita a reinicialização do procedimento, retornando a chamada da função geraSolucao($v$), onde $v$ é um vértice aleatório do grafo $G$. Caso $n < k$ então simplesmente $s'$ recebe $s*$ e depois são removidos os $n$ vértices de $s'$ . Depois de removidos os $n$ vértices, atualiza-se $N_s'$ maximiza a solução de maneira aleatória. Algoritmo 4 ilustra esse processo.\par
+
+\begin{algorithm}
+ \KwData{clique $s*$}
+ $n$ = sorteie um número $\in \{2,k(s*)\}$\;
+ \uIf{$n = k$}{
+   $v$ = vértice aleatório $\in V(G)$\;
+   \KwRet{geraSolucao($v$)}
+  }
+ $s'$ = $s*$\;
+ \While{$k(s') > k(s*)-n$}{
+   $v$ = vértice aleatório $\in s'$
+  $s'$ = $s' - v$\;
+  $k(s')_{--}$\;
+ }
+ recalcula $N_{s'}$\;
+ \KwRet{s'}
+ \caption{Perturbação}
+\end{algorithm}
+
+
+É feita dessa forma pois a perturbação deve fugir do ótimo local e buscar nas vizinhanças uma solução melhor. Dessa forma, a perturbação não pode ser muito forte ou muito fraca. No caso deste artigo, a força da perturbação é decidida de maneira aleatória, mas somente ocorre uma reincialização com probabilidade $p = \frac{1}{k-1}$, assim como ele aplicará uma leve perturbação com a mesma probabilidade. Na média, a perturbação terá força entre os dois extremos.
+
 \subsection{Critério de Aceitação}
+
+O critério de aceitação tem o dever de escolher qual solução sofrerá a próxima perturbação. É bem simples e tem três opções: retorna o maior entre $s*$ e $s*'$, sempre retorna $s*'$, ou , sorteia um dos dois para ser o retorno. \par
+
+O primeiro caso é o caso em que sempre retorna-se o melhor dos dois, que seria o guloso, enquanto o segundo é uma maneira também chamada de \textit{random walk}, pois simplesmente caminha para a próxima solução sem se preocupar com a qualidade dela. O terceiro caso seria o meio termo entre os dois mas que ainda corre o risco de escolher uma solução pior sem nenhum ganho no resto do procedimento.\par
+
+Nos experimentos os três métodos são testados para descobrir qual apresenta melhores resultados em média. Mas é certo que nenhum deles apresenta ganho de velocidade no procedimento geral.
+
 \section{Resultados Experimentais}
 \section{Conclusão}
 

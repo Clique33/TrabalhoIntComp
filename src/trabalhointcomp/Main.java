@@ -41,7 +41,7 @@ public class Main {
                 ILS ILS = new ILS(G);
                 /*G.imprime(true);
                 System.out.println(ILS.history);*/
-                counter += aux = ILS.IteratedLocalSearch(200);
+                counter += aux = ILS.IteratedLocalSearch(150);
                 if(aux > maior) maior = aux;
                 System.out.println(aux);
             }
