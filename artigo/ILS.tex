@@ -3,6 +3,7 @@
 \usepackage{amsmath}
 \usepackage{color}
 \usepackage[boxed,portuguese]{algorithm2e}
+\usepackage[portuguese]{babel}
 
 \title{Iterated Local Search no Problema da Clique Máxima}
 \author{Gabriel Cardoso de Carvalho}
@@ -155,8 +156,54 @@ Nos experimentos os três métodos são testados para descobrir qual apresenta m
 
 \section{Resultados Experimentais}
 
-Toda a implementação foi feita na linguagem JAVA e pode ser acessado por git \cite{git}. Diversos testes foram feitos nas instâncias do DIMACS, com foco nos mais simples, pois é possível testar mais vezes já que essas instâncias são menores.
-
+Toda a implementação foi feita na linguagem JAVA e pode ser acessado por git \cite{git}. Diversos testes foram feitos nas instâncias do DIMACS, com foco nos mais simples, pois é possível testar mais vezes já que essas instâncias são menores.\par
+\begin{center}
+\begin{table}
+\begin{tabular}{| l | l | l | l | l | l |}
+    \hline
+    Instances			& 	DIMACS		& Maior		& Media(M)		& Tempo	& Media(T)\\ \hline
+C125.9				&	34			&34			&33.866665		&22.069		&1.4712666\\ \hline
+C250.9				&	44			&44			&42.2			&79.872		&5.3248\\ \hline
+C500.9				&	57			&53			&51.066666		&324.396	&21.6264\\ \hline
+C1000.9				&	68			&62			&59.133335		&1413.653	&94.24353\\ \hline
+C2000.9 			&	80			&70			&66.46667		&6268.48	&417.89865\\ \hline	
+DSJC1000\_5		&	15			&14			&13.133333		&111.005	&7.400333\\ \hline
+DSJC500\_5			&	13			&13			&12.133333		&34.25		&2.2833333\\ \hline
+C2000.5				&	16			&nill		&nil				&nil			&nil\\ \hline
+C4000.5 			&	18			&nill		&nil				&nil			&nil\\ \hline
+MANN\_a27			&	126			&125		&123.933334	&1545.286	&103.019066\\ \hline
+MANN\_a45			&	345			&			&qwe			&			&\\ \hline
+MANN\_a81			&	1100		&1084*		&qwe			&			&\\ \hline
+brock200\_2			&	12			&12			&10.666667		&5.219		&0.34793332\\ \hline
+brock200\_4			&	17			&16			&15.266666		&8.829		&0.58860004\\ \hline
+brock400\_2			&	29			&24			&22.6			&59.105		&3.9403334\\ \hline
+brock400\_4			&	33			&25			&22.666666		&61.049		&4.0699334\\ \hline
+brock800\_2			&	24			&20			&18.933332		&135.98		&9.065333\\ \hline
+brock800\_4			&	26			&19			&18.466667		&133.014	&8.8676\\ \hline
+gen200\_p0.9\_44	&	44			&44			&39.266666		&36.969		&2.4646	\\ \hline
+gen200\_p0.9\_55	&	55			&55			&47.0			&51.641		&3.4427333\\ \hline
+gen400\_p0.9\_55	&	55			&50			&47.6			&157.595	&10.506333\\ \hline
+gen400\_p0.9\_65	&	65			&65			&50.333332		&156.574	&10.438267\\ \hline
+gen400\_p0.9\_75	&	75			&75			&59.733334		&213.645	&14.243\\ \hline
+hamming10-4		&	40			&40			&37.133335		&417.751	&27.850067\\ \hline
+hamming8-4			&	16			&16			&16.0			&12.258		&0.8172\\ \hline
+keller4				&	11			&11			&11.0			&4.891		&0.32606664\\ \hline
+keller5				&	27			&27			&24.4			&228.479	&15.231934\\ \hline
+keller6				&	59			&52			&49.4			&8234.637	&548.97577\\ \hline
+p\_hat300-1			&	8			&8, 			&8.0			&3.14		&0.20933335\\ \hline
+p\_hat300-2			&	25			&25			&25.0			&28.312		&1.8874667\\ \hline
+p\_hat300-3			&	36			&36			&34.733334		&58.169		&3.8779333\\ \hline
+p\_hat700-1			&	11			&11			&9.333333		&19.366		&1.2910666\\ \hline
+p\_hat700-2			&	44			&44			&43.533333		&274.399	&18.293266\\ \hline
+p\_hat700-3			&	62			&62			&61.266666		&498.792	&33.2528\\ \hline
+p\_hat1500-1		&	12			&11			&10.4			&87.121		&5.808067\\ \hline
+p\_hat1500-2		&	65			&65			&63.666668		&1571.55	&104.770004\\ \hline
+p\_hat1500-3		&	94			&93			&91.2			&4536.831	&302.4554\\ \hline
+    \hline
+\end{tabular}
+\caption{Tabela com os resultados do procedimento nas 37 instâncias do DIMACS}
+\end{table}
+\end{center}
 \section{Conclusão}
 
 Neste artigo foi apresentada uma implementação do Iterated Local Search no problema da clique máxima. Essa implementação focou na tomada de decisões aleatórias em todas as fases do algoritmo do ILS, utilizando duas vizinhanças diferentes para a busca local, $N_1$ e $N_2$, que consistem nas subcliques da clique que passará pela busca local de tamanho $k-1$ e $k-2$ respectivamente, onde $k$ é o tamanho da clique. A perturbação simplesmente retira uma quantidade aleatória de vértices da clique, e eventualmente reinicializa o processo.\par
