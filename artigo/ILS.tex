@@ -12,7 +12,7 @@
 \begin{document}
 \maketitle
 
-\textbf{Resumo:} Esse artigo mostra os resultados de uma implementação do Iterated Local Search no problema da Clique Máxima baseada em decisões aleatórias com o objetivo de comparar com os resultados de outras implementações disponíveis na literatura para as instâncias do DIMACS. Os resultados são, como esperado, piores do que em soluções gulosas, porém espera-se que uma solução aleatória seja mais rápida, já que menos decisões são tomadas.
+\textbf{Resumo:} Esse artigo mostra os resultados de uma implementação do Iterated Local Search no problema da Clique Máxima baseada em decisões aleatórias com o objetivo de comparar com os resultados de outras implementações disponíveis na literatura para as instâncias do DIMACS. Os resultados são, como esperado, piores do que em soluções gulosas, porém não são tão ruins quanto espera-se. Aqui comparamos o nosso algoritmo com o IKLS \cite{kopt}, o HSSGA \cite{HSSGA} e o VNS para cliques máximas \cite{vns}. De fato, o algoritmo erra somente nas instâncias mais complexas, em que outras metaheurísticas como o HSSGA e o VNS também erram, e nos casos em que somente ele erra, ele o faz por uma margem bem pequena.
 
 \section{Introdução}
 
@@ -152,16 +152,15 @@ O critério de aceitação tem o dever de escolher qual solução sofrerá a pr�
 
 O primeiro caso é o caso em que sempre retorna-se o melhor dos dois, que seria o guloso, enquanto o segundo é uma maneira também chamada de \textit{random walk}, pois simplesmente caminha para a próxima solução sem se preocupar com a qualidade dela. O terceiro caso seria o meio termo entre os dois mas que ainda corre o risco de escolher uma solução pior sem nenhum ganho no resto do procedimento.\par
 
-Nos experimentos os três métodos são testados para descobrir qual apresenta melhores resultados em média. Mas é certo que nenhum deles apresenta ganho de velocidade no procedimento geral.
+Nos experimentos apenas o primeiro caso é utilizado pois é certo que nenhum deles apresenta ganho de velocidade no procedimento geral em comparação com o outro. 
 
 \section{Resultados Experimentais}
 
-Toda a implementação foi feita na linguagem JAVA e pode ser acessado por git \cite{git}. Diversos testes foram feitos nas instâncias do DIMACS, com foco nos mais simples, pois é possível testar mais vezes já que essas instâncias são menores.\par
 \begin{center}
 \begin{table}
 \begin{tabular}{| l | l | l | l | l | l |}
     \hline
-    Instances			& 	DIMACS		& Maior		& Media(M)		& Tempo	& Media(T)\\ \hline
+    Instances			& 	DIMACS		& Maior		& Média(M)		& Tempo	& Média(T)\\ \hline
 C125.9				&	34			&34			&33.866665		&22.069		&1.4712666\\ \hline
 C250.9				&	44			&44			&42.2			&79.872		&5.3248\\ \hline
 C500.9				&	57			&53			&51.066666		&324.396	&21.6264\\ \hline
@@ -169,11 +168,11 @@ C1000.9				&	68			&62			&59.133335		&1413.653	&94.24353\\ \hline
 C2000.9 			&	80			&70			&66.46667		&6268.48	&417.89865\\ \hline	
 DSJC1000\_5		&	15			&14			&13.133333		&111.005	&7.400333\\ \hline
 DSJC500\_5			&	13			&13			&12.133333		&34.25		&2.2833333\\ \hline
-C2000.5				&	16			&nill		&nil				&nil			&nil\\ \hline
-C4000.5 			&	18			&nill		&nil				&nil			&nil\\ \hline
+C2000.5				&	16			&15			&14.266666		&374.985	&24.998999\\ \hline
+C4000.5 			&	18			&16			&15.4			&4310.259	&287.3506\\ \hline
 MANN\_a27			&	126			&125		&123.933334	&1545.286	&103.019066\\ \hline
-MANN\_a45			&	345			&			&qwe			&			&\\ \hline
-MANN\_a81			&	1100		&1084*		&qwe			&			&\\ \hline
+MANN\_a45			&	345			&336		&334.888888	&48895.62	&5432.82\\ \hline
+MANN\_a81			&	1100		&1084		&-				&-			&-\\ \hline
 brock200\_2			&	12			&12			&10.666667		&5.219		&0.34793332\\ \hline
 brock200\_4			&	17			&16			&15.266666		&8.829		&0.58860004\\ \hline
 brock400\_2			&	29			&24			&22.6			&59.105		&3.9403334\\ \hline
@@ -190,13 +189,13 @@ hamming8-4			&	16			&16			&16.0			&12.258		&0.8172\\ \hline
 keller4				&	11			&11			&11.0			&4.891		&0.32606664\\ \hline
 keller5				&	27			&27			&24.4			&228.479	&15.231934\\ \hline
 keller6				&	59			&52			&49.4			&8234.637	&548.97577\\ \hline
-p\_hat300-1			&	8			&8, 			&8.0			&3.14		&0.20933335\\ \hline
+p\_hat300-1			&	8			&8 			&8.0			&3.14		&0.20933335\\ \hline
 p\_hat300-2			&	25			&25			&25.0			&28.312		&1.8874667\\ \hline
 p\_hat300-3			&	36			&36			&34.733334		&58.169		&3.8779333\\ \hline
 p\_hat700-1			&	11			&11			&9.333333		&19.366		&1.2910666\\ \hline
 p\_hat700-2			&	44			&44			&43.533333		&274.399	&18.293266\\ \hline
 p\_hat700-3			&	62			&62			&61.266666		&498.792	&33.2528\\ \hline
-p\_hat1500-1		&	12			&11			&10.4			&87.121		&5.808067\\ \hline
+p\_hat1500-1		&	12			&12			&10.4			&94.455		&6.297\\ \hline
 p\_hat1500-2		&	65			&65			&63.666668		&1571.55	&104.770004\\ \hline
 p\_hat1500-3		&	94			&93			&91.2			&4536.831	&302.4554\\ \hline
     \hline
@@ -204,13 +203,76 @@ p\_hat1500-3		&	94			&93			&91.2			&4536.831	&302.4554\\ \hline
 \caption{Tabela com os resultados do procedimento nas 37 instâncias do DIMACS}
 \end{table}
 \end{center}
+
+Toda a implementação foi feita na linguagem JAVA e pode ser acessado por git \cite{git}. Diversos testes foram feitos nas instâncias do DIMACS, com foco nos mais simples, pois é possível testar mais vezes já que essas instâncias são menores.\par
+
+A implementação tem somente um parâmetro, $nIter$ que foi setado como $nIter = 150$, pois abaixo disso alguns testes mostraram que começava a achar cliques muito menores, enquanto maior que 150 não demonstrou melhoria significativa em comparação. Cada um dos testes foram repetidos 15 vezes para cada instância, com exceção de MANN\_a45 (que foi rodado apenas 9 vezes), e MANN\_81 que rodou apenas GeraSolucaoInicial. \par
+
+Essas instâncias não foram completas pois o tamanho das cliques era muito grande, $> 300$ para MANN\_a45  e $>1000$ para MANN\_a81, e por isso, $N_1$ e $N_2$ ficaram muito grandes. O gargalo fica no recálculo de $N_s$, que precisa checar todos os vizinhos de todos os vértices em $N_1$ e $N_2$. A tabela 1 abaixo mostra os resultados de todos os experimentos.\par
+
+Na tabela 1, \textit{Instância} representa a instância em que o experimento foi feito, \textit{DIMACS} representa o maior valor que foi encontrado pelo DIMACS \cite{DIMACS2} para a dada instância, \textit{Maior} representa a maior clique encotrada pelo nosso algoritmo, \textit{Média(M)} representa o tamanho médio das cliques encontradas em cada uma das 15 tentativas, \textit{Tempo} representa o tempo que levou para todo o experimento ser completo e \textit{Média(T)} representa o tempo médio que cada uma das 15 tentativas levou em média para completar as 150 iterações.\par
+
+Quando comparados com os melhores resultados do DIMACS, vemos que o ILS proposto se iguala ao melhor encontrado em 20 ocasiões das 37. Quando erra, por outro lado, tem erro médio de 10\% comparado ao valor do DIMACS, sendo o maior erro de 27\% na instância brock800\_4 e o menor é de 1\% nas instâncias MANN\_a27, MANN\_a81 (lembrando que nesta instância não houve sequer a buscal local) e p\_hat1500-3. Entre os erros é válido colocar que nas instâncias DSJC1000\_5, C2000.5, MANN\_a27, brock200\_4 e p\_hat1500-3, a diferença de tamanho entre a maior clique conhecida pelo DIMACS e a nossa foi de apenas um vértice.\par
+
+A tabela 2 mostra a comparação do nosso algoritmo (na tabela está como ILS) com alguns outros algoritmos da literatura, o IKLS \cite{kopt}, VNS para clique máxima \cite{vns} e o HSSGA \cite{HSSGA}.\par
+
+É possível notar que nosso algoritmo se aproxima do HSSGA, sendo que sempre que o HSSGA erra o nosso também erra. Isso implica na possibilidade de que os grafos que são difíceis para o HSSGA são também difíceis para o nosso, enquanto o VNS erra somente  no brock800\_2 e brock800\_4 que são duas das instâncias que o nosso algoritmo errou com maior diferença. 
+
+\begin{center}
+\begin{table}
+\begin{tabular}{| l | l | l | l | l | l |}
+    \hline
+    Instances			& 	DIMACS		& ILS		& IKLS\cite{kopt}	&VNS\cite{vns}	& HSSGA\cite{HSSGA}\\ \hline
+C125.9				&	34			&34			&34				&34				&34\\ \hline
+C250.9				&	44			&44			&44				&44				&44\\ \hline
+C500.9				&	57			&53			&57				&57				&56\\ \hline
+C1000.9				&	68			&62			&68				&68				&66\\ \hline
+C2000.9 			&	80			&70			&78				&78				&74\\ \hline	
+DSJC1000\_5		&	15			&14			&15				&15				&15\\ \hline
+DSJC500\_5			&	13			&13			&13				&13				&13\\ \hline
+C2000.5				&	16			&15			&16				&16				&16\\ \hline
+C4000.5 			&	18			&16			&18				&18				&17\\ \hline
+MANN\_a27			&	126			&125		&126			&126			&126\\ \hline
+MANN\_a45			&	345			&336		&345			&345			&343\\ \hline
+MANN\_a81			&	1100		&1084		&1100			&1100			&1095\\ \hline
+brock200\_2			&	12			&12			&12				&12				&12\\ \hline
+brock200\_4			&	17			&16			&17				&17				&17\\ \hline
+brock400\_2			&	29			&24			&29				&29				&29\\ \hline
+brock400\_4			&	33			&25			&33				&33				&33\\ \hline
+brock800\_2			&	24			&20			&24				&21				&21\\ \hline
+brock800\_4			&	26			&19			&26				&21				&21\\ \hline
+gen200\_p0.9\_44	&	44			&44			&44				&44				&44\\ \hline
+gen200\_p0.9\_55	&	55			&55			&55				&55				&55\\ \hline
+gen400\_p0.9\_55	&	55			&50			&55				&55				&53\\ \hline
+gen400\_p0.9\_65	&	65			&65			&65				&65				&65\\ \hline
+gen400\_p0.9\_75	&	75			&75			&75				&75				&75\\ \hline
+hamming10-4		&	40			&40			&40				&40				&40\\ \hline
+hamming8-4			&	16			&16			&16				&16				&16\\ \hline
+keller4				&	11			&11			&11				&11				&11\\ \hline
+keller5				&	27			&27			&27				&27				&27\\ \hline
+keller6				&	59			&52			&59				&59				&57\\ \hline
+p\_hat300-1			&	8			&8 			&8				&8				&8\\ \hline
+p\_hat300-2			&	25			&25			&25				&25				&25\\ \hline
+p\_hat300-3			&	36			&36			&36				&36				&36\\ \hline
+p\_hat700-1			&	11			&11			&11				&11				&11\\ \hline
+p\_hat700-2			&	44			&44			&44				&44				&44\\ \hline
+p\_hat700-3			&	62			&62			&62				&62				&62\\ \hline
+p\_hat1500-1		&	12			&12			&12				&12				&12\\ \hline
+p\_hat1500-2		&	65			&65			&65				&65				&65\\ \hline
+p\_hat1500-3		&	94			&93			&94				&94				&94\\ \hline
+    \hline
+\end{tabular}
+\caption{Tabela com os resultados do procedimento nas 37 instâncias do DIMACS}
+\end{table}
+\end{center}
+
 \section{Conclusão}
 
 Neste artigo foi apresentada uma implementação do Iterated Local Search no problema da clique máxima. Essa implementação focou na tomada de decisões aleatórias em todas as fases do algoritmo do ILS, utilizando duas vizinhanças diferentes para a busca local, $N_1$ e $N_2$, que consistem nas subcliques da clique que passará pela busca local de tamanho $k-1$ e $k-2$ respectivamente, onde $k$ é o tamanho da clique. A perturbação simplesmente retira uma quantidade aleatória de vértices da clique, e eventualmente reinicializa o processo.\par
 
-Os resultados, como esperado, mostram que aleatoriedade é pior do que utilizar uma heurística gulosa para a busca local. A implementação desse artigo encontra uma clique em média X\% pior que a média do IKLS \cite{kopt} e a maior clique encontrada é Y\% pior que o IKLS. \par
+Os resultados, como esperado, mostram que aleatoriedade é pior do que utilizar uma heurística gulosa para a busca local. A implementação desse artigo encontra uma clique em média 10\% pior que a média do IKLS \cite{kopt} e a maior discrepância encontrada é de 27\% pior que o IKLS. Porém, este algoritmo errou, em geral, apenas nas instâncias mais difíceis.\par
 
-Trabalhos futuros envolvem testar diversas diferentes buscas locais e perturbações, de maneira a encontrar a melhor possível forma do ILS para o problema da clique máxima. Além disso, uma comparação da melhor forma encontrada com outros tipos de mataheurísticas, como algoritmos genéticos, GRASP, evolutivos entre outros.
+Trabalhos futuros envolvem testar diversas diferentes buscas locais e perturbações, de maneira a encontrar a melhor possível forma do ILS para o problema da clique máxima. Além disso, uma comparação da melhor forma encontrada com outros tipos de mataheurísticas, como algoritmos genéticos, GRASP, evolutivos entre outros. Além disso, encontrar uma maneira mais eficiente de se calcular o $N_{\{C-v\}}$ de uma clique $C$ que foi retirado o nó $v$, pois a forma atual faz com que o algoritmo seja muito lento.
 
 \begin{thebibliography}{58}
 
@@ -244,6 +306,15 @@ Glover, Fred W., and Gary A. Kochenberger, eds. \textit{Handbook of metaheuristi
 
 \bibitem{git}
 https://github.com/Clique33/TrabalhoIntComp.git Acesso em 04/07/2017.
+
+\bibitem{vns}
+P. Hansen, N. Mladenovic, and D. Urosevic. \textit{Variable neighborhood search for
+the maximum clique}. Discrete Applied Mathematics, Vol. 145, No. 1, pp. 117–125,
+2004
+
+\bibitem{HSSGA}
+A. Singh and A. K. Gupta. A hybrid heuristic for the maximum clique problem.
+\textit{Journal of Heuristics}, Vol. 12, No. 1-2, pp. 5–22, 2006.
 
 \end{thebibliography}
 
