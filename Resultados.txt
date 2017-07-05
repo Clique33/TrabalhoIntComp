@@ -2,35 +2,35 @@
 #C125.9			Instância: C125.9, maior: 34, media: 33.866665, tempo: 22.069, tempo(média): 1.4712666
 #C250.9			Instância: C250.9, maior: 44, media: 42.2, tempo: 79.872, tempo(média): 5.3248
 #C500.9			Instância: C500.9, maior: 53, media: 51.066666, tempo: 324.396, tempo(média): 21.6264
-#C1000.9	
+#C1000.9		Instância: C1000.9, maior: 62, media: 59.133335, tempo: 1413.653, tempo(média): 94.24353
 #C2000.9 		Instância: C2000.9, maior: 70, media: 66.46667, tempo: 6268.48, tempo(média): 417.89865	
-#DSJC1000_5
+#DSJC1000_5		Instância: DSJC1000_5, maior: 14, media: 13.133333, tempo: 111.005, tempo(média): 7.400333
 #DSJC500_5		Instância: DSJC500_5, maior: 13, media: 12.133333, tempo: 34.25, tempo(média): 2.2833333
-#MANN_a27		
+#MANN_a27		Instância: MANN_a27, maior: 125, media: 123.933334, tempo: 1545.286, tempo(média): 103.019066
 #MANN_a45
-#MANN_a81
-#brock200_2
-#brock200_4
-#brock400_2
-#brock400_4
-#brock800_2
-#brock800_4
-#gen200_p0.9_44	
-#gen200_p0.9_55
-#gen400_p0.9_55
-#gen400_p0.9_65
-#gen400_p0.9_75
-#hamming10-4
-#hamming8-4
-#keller4
-#keller5
-#keller6
-#p_hat300-1
-#p_hat300-2
-#p_hat300-3
-#p_hat700-1
-#p_hat700-2
-#p_hat700-3
-#p_hat1500-1
-#p_hat1500-2
-#p_hat1500-3
+#MANN_a81		1084*
+#brock200_2		Instância: brock200_2, maior: 12, media: 10.666667, tempo: 5.219, tempo(média): 0.34793332
+#brock200_4		Instância: brock200_4, maior: 16, media: 15.266666, tempo: 8.829, tempo(média): 0.58860004
+#brock400_2		Instância: brock400_2, maior: 24, media: 22.6, tempo: 59.105, tempo(média): 3.9403334
+#brock400_4		Instância: brock400_4, maior: 25, media: 22.666666, tempo: 61.049, tempo(média): 4.0699334
+#brock800_2		Instância: brock800_2, maior: 20, media: 18.933332, tempo: 135.98, tempo(média): 9.065333
+#brock800_4		Instância: brock800_4, maior: 19, media: 18.466667, tempo: 133.014, tempo(média): 8.8676
+#gen200_p0.9_44	Instância: gen200_p0.9_44, maior: 44, media: 39.266666, tempo: 36.969, tempo(média): 2.4646	
+#gen200_p0.9_55	Instância: gen200_p0.9_55, maior: 55, media: 47.0, tempo: 51.641, tempo(média): 3.4427333
+#gen400_p0.9_55	Instância: gen400_p0.9_55, maior: 50, media: 47.6, tempo: 157.595, tempo(média): 10.506333
+#gen400_p0.9_65	Instância: gen400_p0.9_65, maior: 65, media: 50.333332, tempo: 156.574, tempo(média): 10.438267
+#gen400_p0.9_75	Instância: gen400_p0.9_75, maior: 75, media: 59.733334, tempo: 213.645, tempo(média): 14.243
+#hamming10-4	Instância: hamming10-4, maior: 40, media: 37.133335, tempo: 417.751, tempo(média): 27.850067
+#hamming8-4		Instância: hamming8-4, maior: 16, media: 16.0, tempo: 12.258, tempo(média): 0.8172
+#keller4		Instância: keller4, maior: 11, media: 11.0, tempo: 4.891, tempo(média): 0.32606664
+#keller5		Instância: keller5, maior: 27, media: 24.4, tempo: 228.479, tempo(média): 15.231934
+#keller6		Instância: keller6, maior: 52, media: 49.4, tempo: 8234.637, tempo(média): 548.97577
+#p_hat300-1		Instância: p_hat300-1, maior: 8, media: 8.0, tempo: 3.14, tempo(média): 0.20933335
+#p_hat300-2		Instância: p_hat300-2, maior: 25, media: 25.0, tempo: 28.312, tempo(média): 1.8874667
+#p_hat300-3		Instância: p_hat300-3, maior: 36, media: 34.733334, tempo: 58.169, tempo(média): 3.8779333
+#p_hat700-1		Instância: p_hat700-1, maior: 11, media: 9.333333, tempo: 19.366, tempo(média): 1.2910666
+#p_hat700-2		Instância: p_hat700-2, maior: 44, media: 43.533333, tempo: 274.399, tempo(média): 18.293266
+#p_hat700-3		Instância: p_hat700-3, maior: 62, media: 61.266666, tempo: 498.792, tempo(média): 33.2528
+#p_hat1500-1	Instância: p_hat1500-1, maior: 11, media: 10.4, tempo: 87.121, tempo(média): 5.808067
+#p_hat1500-2	Instância: p_hat1500-2, maior: 65, media: 63.666668, tempo: 1571.55, tempo(média): 104.770004
+#p_hat1500-3	Instância: p_hat1500-3, maior: 93, media: 91.2, tempo: 4536.831, tempo(média): 302.4554

@@ -24,7 +24,7 @@ public class Main {
      */
     public static void main(String[] args) {
         Grafo G = null;
-        String instance = "MANN_a27";
+        String instance = "keller6";
         int nIter = 15;
         try {
             Scanner leitor = new Scanner(new File("gerador_de_grafos\\" + instance + ".txt"));
