@@ -28,12 +28,12 @@ A metaheurística implementada nesse artigo é a \textit{Iterated Local Search (
 
 Nesse artigo é proposta uma implementação do ILS focada na aleatoriedade, de modo a comparar seu desempenho com métodos gulosos, como a implementação do IKLS de \textit{Katayama} \cite{kopt}, que utiliza a \textit{Busca Local k-opt (KLS)} \cite{KLS} como busca local, que é uma generalização da busca local 1-opt, onde adiciona-se $k$ vértices à clique por vez, permitindo retirar vértices da clique para isso, de maneira dinâmica, ou seja, o $k$ não é fixo,  e uma perturbação baseada na \textit{menor conecividade por arestas (LEC-KLS)}, onde escolhe-se um vértice $v$ que não pertence à $C$, de maneira que $v$ seja adjacente à menor quantidade de vértices de $C$. Então, adiciona-se $v$  à $C$ e remove de $C$ todos os vértices que não são vizinhos à $v$.\par
 
-A seção 2 apresenta como foi feita a implementação do ILS, enquanto a seção 3 cobre toda a implementação e os resultados experimentais do método sobre as instâncias do DIMACS \cite{DIMACS2}. A seção 4 Apresenta as conclusões e os trabalhos futuros.
+A seção 2 apresenta como foi feita a implementação do ILS, enquanto a seção 3 cobre toda a implementação e os resultados experimentais do método sobre as instâncias do DIMACS \cite{DIMACS2}. A seção 4 apresenta as conclusões e os trabalhos futuros.
 
 \section{ILS}
 
 
-Esta implementação do ILS segue o padrão de Glover \cite{handbook} utilizando o algoritmo 1, onde \textit{GeraSolucaoInicial} trata-se da função que retorna uma clique maximal, a \textit{BuscaLocal} parte de uma clique maximal e busca nas vizinhanças uma clique maior, \textit{Perturbacao} recebe uma clique maximal e retira uma quantidade aleatória de vértices dessa clique, em alguns casos retirando todos os vértices, caso em que ocorre uma reinicialização, e \textit{CriterioAceitacao} que escolhe se a próxima perturbação será feita na solução antiga ou na atual.\par
+Esta implementação do ILS segue o padrão de Glover \cite{handbook} utilizando o algoritmo 1, onde \textit{GeraSolucaoInicial} trata-se da função que retorna uma clique maximal aleatória do grafo $G$, a \textit{BuscaLocal} parte de uma clique maximal e busca nas vizinhanças uma clique maior, \textit{Perturbacao} recebe uma clique maximal e retira uma quantidade aleatória de vértices dessa clique, em alguns casos retirando todos os vértices, caso em que ocorre uma reinicialização, e \textit{CriterioAceitacao} que escolhe se a próxima perturbação será feita na solução antiga ou na atual.\par
 
 
 \begin{algorithm}
@@ -73,17 +73,17 @@ A função \textit{geraSolucao($G$, v)} gera a solução inicial ao criar uma cl
  \caption{função geraSolucao}
 \end{algorithm}
 
-No algoritmo 2, $N_{s_0}$ representa os vértices que podem ser adicionados na clique $s_0$, enquanto $V_v$ representa os vértices adjacentes ao vértice $v$. O algoritmo para quando não há mais nenhum vértice que possa ser adicionado a $C$.\par
+No algoritmo 2, $N_{s_0}$ representa os vértices que podem ser adicionados na clique $s_0$, enquanto $V_v$ representa os vértices adjacentes ao vértice $v$. O algoritmo para quando não há mais nenhum vértice que possa ser adicionado a $s_0$, ou seja, $s_0$ é maximal.\par
 
 Além de ser utilizada para criar a solução inicial, a função \textit{GeraSolucaoInicial($G$)} é chamada novamente sempre que a Perturbação decide que deve ser feita uma reinicialização.
 
 \subsection{Busca Local}
 
-A busca local vai receber uma clique $C$, e a partir dessa clique, vai tentar melhorá-la olhando para as vizinhanças de $C$. Temos duas vizinhanças, $N_1$ e $N_2$ que são explicadas mas a frente. Elas são conjuntos de cliques vizinhas a $C$, dada alguma propriedade. Dados esses conjuntos, a busca local irá simplesmente maximizar cada uma das cliques e escolher uma delas.\par
+A busca local vai receber uma clique $C$, e a partir dessa clique, vai tentar melhorá-la olhando para as vizinhanças de $C$. Temos duas vizinhanças, $N_1$ e $N_2$ que são explicadas mais a frente. Elas são conjuntos de cliques vizinhas a $C$, dada alguma propriedade. Dados esses conjuntos, a busca local irá simplesmente maximizar cada uma das cliques e escolher uma delas.\par
 
-Definimos aqui $N_i(C)$ como a vizinhança da clique $C$, tal que, $\forall C' \in N_i(C), $\\$C' \subset C,  k(C') = k(C)-i$. Portanto as vizinhanças que usaremos, $N_1$ e $N_2$, são subcliques de $C$ com tamanhos $k-1$ e $k-2$, respectivamente, onde $k$ é o tamanho da clique $C$.\par
+Definimos aqui $N_i(C)$ como o conjunto de cliques vizinhas a $C$, ou seja, a vizinhança da clique $C$, tal que, $\forall C' \in N_i(C), $\\$C' \subset C,  k(C') = k(C)-i$. Portanto as vizinhanças que usaremos, $N_1$ e $N_2$, são subcliques de $C$ com tamanhos $k-1$ e $k-2$, respectivamente, onde $k$ é o tamanho da clique $C$.\par
 
-$N_1$ tem tamanho $k$, ou seja, temos um vizinho para cada vértice de $C$. Para $N_2$, por outro lado temos $\binom{k}{2}$  vizinhos, ou ainda, $\frac{k^2 - k}{2}$. Dessa forma, é possível utilizar a técnica de \textit{Best Improvement} (testar todos e escolher o melhor) para $N_1$. Caso $N_1$ não produza uma melhora, então testa-se para $N_2$, onde se faz necessário utilizar \textit{First Improvement} (escolher o primeiro que melhorar a solução atual) devido ao seu tamanho. O algoritmo 3 mostra o pseudo-código da busca local.\par
+$N_1$ tem tamanho $k$, ou seja, temos um vizinho para cada vértice de $C$. Dessa forma, é possível utilizar a técnica de \textit{Best Improvement} (testar todos e escolher o melhor) para $N_1$. Para $N_2$, por outro lado temos $\binom{k}{2}$  vizinhos, ou ainda, $\frac{k^2 - k}{2}$. Caso $N_1$ não produza uma melhora, então testa-se para $N_2$, onde se faz necessário utilizar \textit{First Improvement} (escolher o primeiro que melhorar a solução atual) devido ao seu tamanho. Por outro lado, mesmo usando First Improvement o tamanho de $N_2$ pode ficar enorme. Por isso, o algoritmo 3 mostra o pseudo-código da busca local com a maneira que utilizamos para buscar em $N_2$.\par
 
 \begin{algorithm}
  \KwData{Clique $s$}
@@ -115,22 +115,21 @@ $N_1$ tem tamanho $k$, ou seja, temos um vizinho para cada vértice de $C$. Para
  \caption{BuscaLocal}
 \end{algorithm}
 
-As cliques, tanto em $N_1$ quanto $N_2$, são proibidas de voltarem às suas cliques originais, ou seja, seja $c \in N_1$ se $c = s + u$, onde $s$ é a clique original de $c$ e $u$ é o vértice de $s$ que não está em $c$, então $u$ não faz parte de $N_C(c)$.\par
-
  Buscar todo o $N_2$ implica em complexidades de tempo e espaço grandes demais em grafos muito grandes, como as instâncias \textit{C4000.5}, \textit{MANN\_a81} e \textit{keller6} do DIMACS \cite{DIMACS2}. Dessa forma, como o tamanho de $N_2$ é muito grande, calcula-se apenas $k$ dos $\frac{k^2-k}{2}$ elementos de $N_2$ de maneira aleatória.\par
+
+As cliques, tanto em $N_1$ quanto $N_2$, são proibidas de voltarem às suas cliques originais, ou seja, seja $c \in N_1$ se $c = s + u$, onde $s$ é a clique original de $c$ e $u$ é o vértice de $s$ que não está em $c$, então $u$ não faz parte de $N_c$.\par
 
 A busca local portanto sempre vai retornar uma clique maior que a entrada dela, ou a própria entrada caso não consiga melhorá-la. 
 
 \subsection{Perturbação}
 
-A perturbação simplesmente sorteia um valor $2 \leq n \leq k$ e remove de $s*$ $n$ vértices aleatórios. Caso $n = k$, então é feita a reinicialização do procedimento, retornando a chamada da função geraSolucao($v$), onde $v$ é um vértice aleatório do grafo $G$. Caso $n < k$ então simplesmente $s'$ recebe $s*$ e depois são removidos os $n$ vértices de $s'$ . Depois de removidos os $n$ vértices, atualiza-se $N_s'$ maximiza a solução de maneira aleatória. Algoritmo 4 ilustra esse processo.\par
+A perturbação simplesmente sorteia um valor $2 \leq n \leq k$ e remove de $s*$ $n$ vértices aleatórios. Caso $n = k$, então é feita a reinicialização do procedimento, retornando a chamada da função GeraSolucaoInicial($G$). Caso $n < k$ então simplesmente $s'$ recebe $s*$ e depois são removidos os $n$ vértices de $s'$ . Depois de removidos os $n$ vértices, atualiza-se $N_s'$ e maximiza a solução de maneira aleatória. Algoritmo 4 ilustra esse processo.\par
 
 \begin{algorithm}
- \KwData{clique $s*$}
+ \KwData{grafo $G$, clique $s*$}
  $n$ = sorteie um número $\in \{2,k(s*)\}$\;
  \uIf{$n = k$}{
-   $v$ = vértice aleatório $\in V(G)$\;
-   \KwRet{geraSolucao($v$)}
+   \KwRet{GeraSolucaoInicial($G$)}
   }
  $s'$ = $s*$\;
  \While{$k(s') > k(s*)-n$}{
@@ -144,7 +143,7 @@ A perturbação simplesmente sorteia um valor $2 \leq n \leq k$ e remove de $s*$
 \end{algorithm}
 
 
-É feita dessa forma pois a perturbação deve fugir do ótimo local e buscar nas vizinhanças uma solução melhor. Dessa forma, a perturbação não pode ser muito forte ou muito fraca. No caso deste artigo, a força da perturbação é decidida de maneira aleatória, mas somente ocorre uma reincialização com probabilidade $p = \frac{1}{k-1}$, assim como ele aplicará uma leve perturbação com a mesma probabilidade. Na média, a perturbação terá força entre os dois extremos.
+A perturbação é feita dessa forma pois ela deve fugir do ótimo local para que a busca local possa buscar nas proximidades da solução atual uma solução melhor. Dessa forma, a perturbação não pode ser muito forte ou muito fraca. No caso deste artigo, a força da perturbação é decidida de maneira aleatória, mas somente ocorre uma reincialização com probabilidade $p = \frac{1}{k-1}$, assim como ele aplicará a perturbação mais leve com a mesma probabilidade. Na média, a perturbação terá força entre os dois extremos.
 
 \subsection{Critério de Aceitação}
 
@@ -152,7 +151,7 @@ O critério de aceitação tem o dever de escolher qual solução sofrerá a pr�
 
 O primeiro caso é o caso em que sempre retorna-se o melhor dos dois, que seria o guloso, enquanto o segundo é uma maneira também chamada de \textit{random walk}, pois simplesmente caminha para a próxima solução sem se preocupar com a qualidade dela. O terceiro caso seria o meio termo entre os dois mas que ainda corre o risco de escolher uma solução pior sem nenhum ganho no resto do procedimento.\par
 
-Nos experimentos apenas o primeiro caso é utilizado pois é certo que nenhum deles apresenta ganho de velocidade no procedimento geral em comparação com o outro. 
+Nos experimentos apenas o primeiro caso é utilizado pois é certo que nenhum deles apresenta ganho de velocidade no procedimento geral em comparação com o outro, portanto é uma questão apenas de qual tem mais chance de dar bons resultados, que é, de maneira geral, o guloso.  
 
 \section{Resultados Experimentais}
 
@@ -204,13 +203,13 @@ p\_hat1500-3		&	94			&93			&91.2			&4536.831	&302.4554\\ \hline
 \end{table}
 \end{center}
 
-Toda a implementação foi feita na linguagem JAVA e pode ser acessado por git \cite{git}. Diversos testes foram feitos nas instâncias do DIMACS, com foco nos mais simples, pois é possível testar mais vezes já que essas instâncias são menores.\par
+Toda a implementação foi feita na linguagem JAVA e pode ser acessado por git \cite{git}. Diversos testes foram feitos nas 37 instâncias do DIMACS, com foco nos mais simples, pois é possível testar mais vezes já que essas instâncias são menores.\par
 
-A implementação tem somente um parâmetro, $nIter$ que foi setado como $nIter = 150$, pois abaixo disso alguns testes mostraram que começava a achar cliques muito menores, enquanto maior que 150 não demonstrou melhoria significativa em comparação. Cada um dos testes foram repetidos 15 vezes para cada instância, com exceção de MANN\_a45 (que foi rodado apenas 9 vezes), e MANN\_81 que rodou apenas GeraSolucaoInicial. \par
+A implementação tem somente um parâmetro, $nIter$ que foi setado como $nIter = 150$, que é o número de iterações do ILS, pois abaixo disso testes mostraram que as cliques encontradas eram muito menores que o valor esperado, enquanto maior que 150 não demonstrou melhoria significativa em comparação. Cada um dos testes foram repetidos 15 vezes para cada instância, com exceção de MANN\_a45 (que foi rodado apenas 9 vezes), e MANN\_81 que rodou apenas GeraSolucaoInicial. \par
 
-Essas instâncias não foram completas pois o tamanho das cliques era muito grande, $> 300$ para MANN\_a45  e $>1000$ para MANN\_a81, e por isso, $N_1$ e $N_2$ ficaram muito grandes. O gargalo fica no recálculo de $N_s$, que precisa checar todos os vizinhos de todos os vértices em $N_1$ e $N_2$. A tabela 1 abaixo mostra os resultados de todos os experimentos.\par
+Essas instâncias não foram completas pois o tamanho das cliques era muito grande, $> 300$ para MANN\_a45  e $>1000$ para MANN\_a81, e por isso, $N_1$ e $N_2$ ficaram muito grandes. O gargalo fica no recálculo de $N_c$ para cada $c \in N_1$ e $c' \in N_2$, que precisa checar todos os vizinhos de todos os vértices em $c$ e $c'$ para todas as cliques em $N_1$ e $N_2$. A tabela 1 mostra os resultados de todos os experimentos.\par
 
-Na tabela 1, \textit{Instância} representa a instância em que o experimento foi feito, \textit{DIMACS} representa o maior valor que foi encontrado pelo DIMACS \cite{DIMACS2} para a dada instância, \textit{Maior} representa a maior clique encotrada pelo nosso algoritmo, \textit{Média(M)} representa o tamanho médio das cliques encontradas em cada uma das 15 tentativas, \textit{Tempo} representa o tempo que levou para todo o experimento ser completo e \textit{Média(T)} representa o tempo médio que cada uma das 15 tentativas levou em média para completar as 150 iterações.\par
+Na tabela 1, \textit{Instância} representa a instância em que o experimento foi feito, \textit{DIMACS} representa o maior valor que foi encontrado pelo DIMACS \cite{DIMACS2} para a dada instância, \textit{Maior} representa a maior clique encotrada pelo nosso algoritmo, \textit{Média(M)} representa o tamanho médio das cliques encontradas em cada uma das 15 tentativas, \textit{Tempo} representa o tempo que levou para todo o experimento ser completo e \textit{Média(T)} representa o tempo médio que cada uma das 15 tentativas levou para completar as 150 iterações.\par
 
 Quando comparados com os melhores resultados do DIMACS, vemos que o ILS proposto se iguala ao melhor encontrado em 20 ocasiões das 37. Quando erra, por outro lado, tem erro médio de 10\% comparado ao valor do DIMACS, sendo o maior erro de 27\% na instância brock800\_4 e o menor é de 1\% nas instâncias MANN\_a27, MANN\_a81 (lembrando que nesta instância não houve sequer a buscal local) e p\_hat1500-3. Entre os erros é válido colocar que nas instâncias DSJC1000\_5, C2000.5, MANN\_a27, brock200\_4 e p\_hat1500-3, a diferença de tamanho entre a maior clique conhecida pelo DIMACS e a nossa foi de apenas um vértice.\par
 
@@ -272,7 +271,7 @@ Neste artigo foi apresentada uma implementação do Iterated Local Search no pro
 
 Os resultados, como esperado, mostram que aleatoriedade é pior do que utilizar uma heurística gulosa para a busca local. A implementação desse artigo encontra uma clique em média 10\% pior que a média do IKLS \cite{kopt} e a maior discrepância encontrada é de 27\% pior que o IKLS. Porém, este algoritmo errou, em geral, apenas nas instâncias mais difíceis.\par
 
-Trabalhos futuros envolvem testar diversas diferentes buscas locais e perturbações, de maneira a encontrar a melhor possível forma do ILS para o problema da clique máxima. Além disso, uma comparação da melhor forma encontrada com outros tipos de mataheurísticas, como algoritmos genéticos, GRASP, evolutivos entre outros. Além disso, encontrar uma maneira mais eficiente de se calcular o $N_{\{C-v\}}$ de uma clique $C$ que foi retirado o nó $v$, pois a forma atual faz com que o algoritmo seja muito lento.
+Trabalhos futuros envolvem encontrar uma maneira mais eficiente de se calcular o $N_{\{C-v\}}$ de uma clique $C$ que foi retirado o nó $v$, pois a forma atual faz com que o algoritmo seja muito lento. Além disso, testar diversas diferentes buscas locais e perturbações, de maneira a encontrar a melhor possível forma do ILS para o problema da clique máxima. Finalmente, uma comparação da melhor forma encontrada com outros tipos de mataheurísticas, como algoritmos genéticos, GRASP, evolutivos entre outros.
 
 \begin{thebibliography}{58}
 
